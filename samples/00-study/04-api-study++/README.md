@@ -1,4 +1,4 @@
-# Sample 00-empty
+# Sample 04-api-study++
 
 ## Description
 
@@ -19,10 +19,6 @@ The sample has support for the following boards:
 ## On a nrf528dk_nrf52832
 
 ```
-Memory region         Used Size  Region Size  %age Used
-           FLASH:       19802 B       512 KB      3.78%
-             RAM:        5504 B        64 KB      8.40%
-        IDT_LIST:          0 GB         2 KB      0.00%
 ```
 
 
@@ -30,8 +26,8 @@ Memory region         Used Size  Region Size  %age Used
 
 ```
 Memory region         Used Size  Region Size  %age Used
-           FLASH:       23204 B         1 MB      2.21%
-             RAM:        7616 B       256 KB      2.91%
+           FLASH:       22132 B         1 MB      2.11%
+            SRAM:        5632 B       256 KB      2.15%
         IDT_LIST:          0 GB         2 KB      0.00%
 ```
 
@@ -39,8 +35,4 @@ Memory region         Used Size  Region Size  %age Used
 ## On a nrf52840dongle_nrf52840
 
 ```
-Memory region         Used Size  Region Size  %age Used
-           FLASH:       39440 B      1020 KB      3.78%
-             RAM:       16576 B       256 KB      6.32%
-        IDT_LIST:          0 GB         2 KB      0.00%
 ```
