@@ -54,7 +54,7 @@ extern "C" {
       void now(int *min,int *s,int *ms,int *us) { _PI_.now(min,s,ms,us); }
       void hello(int lvl,PI_txt txt) { _PI_.hello(lvl,txt); }
       void led(int i, int val) { _PI_.led(i,val); }
-      int button(void (*cb)(int i)) { return _PI_.button(cb); }
+      int button(void (*cb)(int i,int on)) { return _PI_.button(cb); }
   };
 #else
   #define pico (*_pi_api_())

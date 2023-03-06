@@ -1,11 +1,11 @@
 // main.cpp - 04-pico-led++
-#include "pico/suite.h"
+#include "pico/api.h"
 
 Pico pi;
 
 int main(void)
 {
-  prt("03-pico-led (board %s)\n",CONFIG_BOARD);
+  prt(PROJECT " (board %s)\n",CONFIG_BOARD);
 
 	for (bool on=1; ; on=!on, pi.sleep(500)) {
     log(1,"%sLED flip",on?PI_G:PI_M);
