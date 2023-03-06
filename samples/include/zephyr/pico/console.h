@@ -5,8 +5,7 @@
 #include <zephyr/kernel.h>
 #include <zephyr/usb/usb_device.h>
 #include <zephyr/drivers/uart.h>
-
-#define pi_prt printk  // print function abstraction
+#include "pico/ansi.h"
 
 typedef const char *PI_txt;
 
@@ -30,5 +29,16 @@ typedef const char *PI_txt;
 #else                             // DKs, using Segger RTT
   static inline int pi_console(bool wait) { return 0; }
 #endif
+
+static inline void pi_vprt(PI_txt fmt, va_list ap)
+{
+  vprintk(fmt, ap);
+}
+
+static inline void pi_prt(PI_txt fmt,...)
+{
+  va_list ap;
+	va_start(ap,fmt); pi_vprt(fmt, ap);	va_end(ap);
+}
 
 #endif // __PICO_CONSOLE__

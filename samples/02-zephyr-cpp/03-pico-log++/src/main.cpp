@@ -13,6 +13,6 @@ int main(void)
 	for (int i=0;;i++,time+=500)
   {
     pico.sleep(time-pi_ms());
-    log(i%5, "%shave a nice day!",color[i%5]);
+    pico.log(i%5, "%shave a nice day!",color[i%5]);
   }
 }

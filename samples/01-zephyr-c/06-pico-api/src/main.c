@@ -5,7 +5,7 @@ static bool enable[4] = {1,1,1,1};
 
 static void clicked(int i, int on)
 {
-  log(1,"%sclick: @%d,%d", on?PI_G:PI_M,i,on);
+  pico.log(1,"%sclick: @%d,%d", on?PI_G:PI_M,i,on);
   if (on) enable[i%4] = !enable[i%4];  // toggle LED @i
 }
 
@@ -13,7 +13,7 @@ static void now(void)  // print current time
 {
   int min,s,ms,us;
   pico.now(&min,&s,& ms,&us);
-  prt("time: [%d:%02d:%03d.%03d]\n",min,s,ms,us);
+  pico.prt("time: [%d:%02d:%03d.%03d]\n",min,s,ms,us);
 }
 
 static void wait(PI_us due) // wait until due
@@ -33,8 +33,12 @@ void main(void)
   pico.button(clicked);  // setup button callback
 
   PI_ms time = 0;
-	for (bool on=0;;time+=500,on=!on)
+  int e=0, f=1 ; // Fibonacci seed
+	for (bool on=0;;on=!on)
   {
+    time = f*100;
+    int g = e+f; e = f; f = g;  // Fibonacci iteration
+
     wait(time);  // wait until die
     now();       // print current time
     leds(on);    // toggle enabled LEDs
