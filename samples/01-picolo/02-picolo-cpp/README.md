@@ -1,4 +1,4 @@
-# Sample 06-pico-api++
+# Sample 02-picolo-c++
 
 To be done ...
 

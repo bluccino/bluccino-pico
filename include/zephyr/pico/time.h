@@ -49,10 +49,10 @@ static inline void pi_now(int *pmin, int *psec, int *pms, int *pus)
   *pmin = min;  *psec = sec;
 }
 
-static inline void pi_sleep(PI_ms ms)              // deep sleep for given milliseconds
+static inline void pi_sleep(PI_us us)              // deep sleep for given milliseconds
 {
-  if (ms > 0)
-    _rtos_sleep_ms_((int)ms);
+  if (us > 0)
+    _rtos_sleep_us_((int)us);
 }
 
 #endif // __PICO_TIME_H__

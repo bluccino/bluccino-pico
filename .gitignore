@@ -56,4 +56,5 @@ build
 build_*
 output
 .DS_Store
+.dummy
 .vscode

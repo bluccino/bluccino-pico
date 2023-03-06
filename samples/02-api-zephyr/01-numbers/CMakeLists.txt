@@ -3,9 +3,9 @@
 cmake_minimum_required(VERSION 3.20.0)
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 
-project(06-pico-api++)
+project(01-numbers)
 add_definitions(-DPROJECT="${CMAKE_PROJECT_NAME}")
 
 set (PICO ../../../include/zephyr)
 include_directories(src ${PICO})
-target_sources(app PRIVATE src/main.cpp)
+target_sources(app PRIVATE src/main.c)
