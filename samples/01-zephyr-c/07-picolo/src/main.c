@@ -2,7 +2,7 @@
 #include "pico/api.h"
 
 static bool enable[4] = {1,1,1,1};
-static PI_ms time = 0;
+PI_ms due = 0;
 
 static void clicked(int i, int on)
 {
@@ -10,15 +10,15 @@ static void clicked(int i, int on)
   if (on) enable[i%4] = !enable[i%4];  // toggle LED @i
 }
 
-int main(void)
+void main(void)
 {
   pico.hello(4,"click any button");
   pico.button(clicked);  // setup button callback
 
-	for (bool on=0;;on=!on,time+=500)
+	for (bool on=0;;on=!on,due+=500)
   {
-    while(pico.ms() < time);  // wait until due
+    pico.sleep(due-pico.ms());
     for (int i=1;i<=4;i++) pico.led(i,enable[i%4]?on:0);
+    if (due % 5000 == 0) pico.log(1,PI_Y "click any button!");
   }
-  return 0;
 }

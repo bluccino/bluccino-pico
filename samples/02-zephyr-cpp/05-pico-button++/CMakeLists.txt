@@ -3,7 +3,7 @@
 cmake_minimum_required(VERSION 3.20.0)
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 
-project(02-pico-time++)
+project(05-pico-button++)
 add_definitions(-DPROJECT="${CMAKE_PROJECT_NAME}")
 
 set (PICO ../../../include/zephyr)

@@ -14,20 +14,20 @@ static inline int *pi_verbose(void)
 
 static inline void pi_vlog(int lvl,PI_txt fmt,va_list ap)
 {
-  int min,s,ms,us;
-  pi_now(&min,&s,&ms,&us);
-  pi_prt("#%d[%05d:%02d:%03d.%03d] ",lvl,min,s,ms,us);
-  for (int i=0;i < lvl;i++) pi_prt("  ");
-  pi_vprt(fmt,ap);
-  pi_prt("\n" PI_0);
+  if (lvl <= *pi_verbose()) {
+    int min,s,ms,us;
+    pi_now(&min,&s,&ms,&us);
+    pi_prt("#%d[%05d:%02d:%03d.%03d] ",lvl,min,s,ms,us);
+    for (int i=0;i < lvl;i++) pi_prt("  ");
+    pi_vprt(fmt,ap);
+    pi_prt("\n" PI_0);
+  }
 }
 
 static inline void pi_log(int lvl,PI_txt fmt,...)
 {
-  if (lvl<=*pi_verbose()) {
-    va_list ap;
-    va_start(ap,fmt); pi_vlog(lvl,fmt, ap);	va_end(ap);
-  }
+  va_list ap;
+  va_start(ap,fmt); pi_vlog(lvl,fmt, ap);	va_end(ap);
 }
 
 static inline void pi_hello(int lvl,const char *txt)
