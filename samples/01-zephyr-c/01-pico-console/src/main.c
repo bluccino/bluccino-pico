@@ -4,8 +4,8 @@
 int main(void)
 {
   pi_console(true); // init/wait for console ready
-  printk(PROJECT " (board %s)\n",CONFIG_BOARD);
+  pi_prt(PI_R PROJECT " (board %s)\n" PI_0,CONFIG_BOARD);
 
 	for (int i=0;;i++,k_msleep(500))
-    printk("number: %d\n",i);
+    pi_prt("number: %s%d\n" PI_0,i%5?PI_G:PI_R,i);
 }
