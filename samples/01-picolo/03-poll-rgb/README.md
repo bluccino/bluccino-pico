@@ -1,4 +1,4 @@
-# Sample 03-poll
+# Sample 03-poll-rgb
 
 To be done ...
 
