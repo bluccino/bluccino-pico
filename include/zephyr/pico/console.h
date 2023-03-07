@@ -39,15 +39,15 @@ static inline void _vprt_init_(PI_txt fmt, va_list ap);
 
 static inline _PI_vprt_* _vprt_(void)
 {
-  static _PI_vprt_ vprt = vprintk; // _vprt_init_;
+  static _PI_vprt_ vprt = _vprt_init_;
   return &vprt;
 }
 
 static inline void _vprt_init_(PI_txt fmt, va_list ap)
 {
   *_vprt_() = vprintk; // use now vprintk
-  pi_console(true);  // wait for ready
-pi_prt(PI_B "console initialized!\n");
+  pi_console(true);    // wait for ready
+  vprintk(fmt,ap);     // our original task
 }
 
 static inline void pi_vprt(PI_txt fmt,va_list ap)

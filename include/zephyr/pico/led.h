@@ -45,7 +45,6 @@ static inline void pi_led(int i, int val)
   {
     for (int k=1; k<=4; k++)
     {
-pi_prt("set led @%d,%d\n",k,val);
       gpio_pin_set_dt(_pi_led_ptr_(k),val);
     }
   }
