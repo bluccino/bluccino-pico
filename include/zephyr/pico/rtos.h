@@ -7,7 +7,7 @@
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/drivers/uart.h>
 
-#define _rtos_sleep_ms_(ms)  k_msleep(ms)
+#define _rtos_sleep_us_(us)  k_usleep((int32_t)us)
 
    // Zephyr RTOS us clock time
 

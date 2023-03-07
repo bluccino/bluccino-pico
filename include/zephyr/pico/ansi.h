@@ -8,6 +8,6 @@
 #define PI_B     "\x1b[34m"        // blue
 #define PI_M     "\x1b[35m"        // magenta
 #define PI_C     "\x1b[36m"        // cyan
-#define PI_0     "\x1b[0m"         // reset
+#define PI_0     "\x1b[0m"         // neutral
 
 #endif // __PICO_ANSI__

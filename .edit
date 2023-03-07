@@ -1,0 +1,14 @@
+##!/bin/bash
+# .edit: launch editor
+
+   if [ "$*" == "-?" ]; then
+      echo 'usage: ./.edit <args>   # launch atom with common project dirs'
+      exit 0
+   fi
+
+   GITROOT=`gitroot`
+
+   cd $GITROOT
+   atom .
+
+# eof

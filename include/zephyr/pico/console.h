@@ -12,6 +12,7 @@ typedef const char *PI_txt;
 #ifdef CONFIG_USB_DEVICE_PRODUCT  // USB/COM
   static inline int pi_console(bool wait)
   {
+    static bool nowait = false; // toggle if !wait
     static uint32_t dtr = 0xff; // UART line ctrl DTR
     static const struct device *dev =
         DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
@@ -22,7 +23,9 @@ typedef const char *PI_txt;
     }
     for (dtr=0; dtr == 0; k_msleep(250)) {
       uart_line_ctrl_get(dev, UART_LINE_CTRL_DTR, &dtr);
-      if (!wait) return (dtr == 0);
+      if (!wait || nowait) {
+        nowait = true;  return (dtr == 0);
+      }
     }
     return (dtr == 0);  // return 0 if console ready
   }
@@ -30,9 +33,26 @@ typedef const char *PI_txt;
   static inline int pi_console(bool wait) { return 0; }
 #endif
 
-static inline void pi_vprt(PI_txt fmt, va_list ap)
+typedef void (*_PI_vprt_)(PI_txt fmt, va_list ap);
+static inline void pi_prt(PI_txt fmt,...);
+static inline void _vprt_init_(PI_txt fmt, va_list ap);
+
+static inline _PI_vprt_* _vprt_(void)
 {
-  vprintk(fmt, ap);
+  static _PI_vprt_ vprt = _vprt_init_;
+  return &vprt;
+}
+
+static inline void _vprt_init_(PI_txt fmt, va_list ap)
+{
+  *_vprt_() = vprintk; // use now vprintk
+  pi_console(true);    // wait for ready
+  vprintk(fmt,ap);     // our original task
+}
+
+static inline void pi_vprt(PI_txt fmt,va_list ap)
+{
+  (*_vprt_())(fmt, ap);
 }
 
 static inline void pi_prt(PI_txt fmt,...)
