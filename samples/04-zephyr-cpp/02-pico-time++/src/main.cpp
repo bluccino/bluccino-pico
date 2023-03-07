@@ -1,16 +1,14 @@
-// main.cpp 02-pico-time++
+// main.cpp - 02-pico-time++
 #include "pico/api.h"
-
 Pico pico;  // create Pico class instance
 
 int main(void)
 {
   pico.prt(PI_R PROJECT " (%s)\n" PI_0,CONFIG_BOARD);
 
-	for (PI_ms time=0;;time+=1010)
+	for (PI_us time=0;;time+=1010*1000)
   {
-    pico.sleep(time-pi_ms()-1);   // sleep 1 ms less
-    while(pico.us() < 1000*time); // busy wait
+    pico.sleep(time-pico.us());
 
     int min,s,ms,us;
     pico.now(&min,&s,& ms,&us);
