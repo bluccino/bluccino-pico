@@ -12,7 +12,7 @@ extern "C" {
   #include "pico/led.h"
   #include "pico/log.h"
 
-  typedef struct {
+  typedef struct PI_api {
     int (*console)(bool wait);
     void (*prt)(PI_txt fmt,...);
     void (*sleep)(PI_ms ms);

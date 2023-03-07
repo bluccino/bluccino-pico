@@ -3,67 +3,120 @@
 The Pico API provides "eight treasures" as basic interactions with an embedded hardware. The API is solely based on a suite of headerfiles.
 
 
-![pico](./doc/image/pico.png)
+![pico](./doc/image/pico.jpg)
 
-## Pico Suite
 
- We call this “goodie” the Pico Suite. Each of these header files provides simple access to some hardware resource.
-•	The Pico Console API (#include “pico/console.h”) declares pi_prt(), an abstraction of printk(), and provides an inline function pi_console() to enable a USB console for logging. This allows logging from a dongle to a USB connected terminal.
+# What is Pico?
 
-•	The Pico Time API (#include “pico/time.h”) defines types PI_us and PI_ms to deal with microseconds and milliseconds. It further declares pi_sleep() as an abstraction of k_msleep() and provides inline func¬tions pi_us() and pi_ms() to read microsecond or millisecond based realtime. Finally with function  pi_set_us() the realtime clock can be pre-set to a given value.
+## Overview
 
-•	The Pico LED API (#include “pico/led.h”) declares inline function pi_led, which allows to turn on/off, or to toggle up to four LEDs (if provided by the board).
+Pico is a tiny application interface (API) for embedded systems, which decouples an application software from the underlying real time operating system (RTOS) by a very thin abstraction layer.  In this sense Pico can be easily adopted to various RTOS types or hardware abstractions (like FreeRTOSTM or STM32CubeMX). In this paper, however, we describe Pico in a pure Zephyr RTOS context.
 
-•	The Pico Button API (#include “pico/button.h”) provides inline function pi_button() to initialize up to four buttons (if provided by the hardware) and assign it with a button callback. 
-All Pico APIs are provided by tiny, self-contained header files without related C-implementation files. They unburden the application from Zephyr details. Since the Pico Suite is so tiny, it can be easily ported to other real time operating systems like Free-RTOS, even CubeMX or other. The prefix “pi_” of the pico functions stands for “pico”. 
-The Zephyr based Pico Suite is a key reference for the application of important Zephyr API functions. Together with Kconfig and devicetree it allows to use important basic control functions of over hundred hardware boards with an identical and compact code. Let us study some sample applications utilizing the Pico Suite.
+The Pico-API provides a tiny function set, which allows novices to get simple software samples running on embedded hardware. The API provides the following basics: initializing a console and waiting for console readiness, formatted/colored printing to a console, reading a system clock in microseconds, sleeping for a given number of microseconds, level controlled logging with microsecond timestamps, on/off or toggle control of up to four LEDs per board, initializing and setting up a callback for up to four buttons per board.
 
-## A Sample
+This contribution is a tutorial for getting quickly running with Zephyr on embedded hardware with tiny sample applications on base of the Pico-API, which can be downloaded free of charge from the internet. A key target of this tutorial is to demonstrate hardware/board independent code prepared for Nordic development kits (DKs) and on a Nordic dongle, and to visualize the log output on various terminal programs.
 
-The following sample utilizes all Pico API functions for demonstration.
+Once the reader is familiar with building and running of Pico based Zephyr samples, the reader can tackle the next step of how to use Zephyr’s Kconfig system and devicetree for adapting Pico samples to other embedded hardware.
+
+
+## Introduction
+
+The Zephyr realtime operating system (RTOS) is a power-ful environment to configure and build scalable RTOS kernels for constrained hardware (hardware with limited resource, like RAM and flash memory). Utilizing the kernel configu¬ration (Kconfig) and devicetree system, it is pos¬sible to write hardware/board-independent software for various kinds of embedded hardware.
+While these powerful capabilities of Zephyr are impressive, the learning phase of a novice to get familiar with Zephyr can be very tedious, sometimes even be a nightmare.       
+
+Initializing button input and catching a button event with a callback requires usage of seven Zephyr API macros/func¬tions and confronts the user with Kconfig and devicetree magic.
+For sure: there is no way around Kconfig and devicetree, when dealing with Zephyr, like with serious mathematics there is no way around differential/integral calculus. But everywhere in the world children will first learn a solid basis of the four basic arithmetic operations (+, -, *, /), before they are facing to the magic of calculus.  
+
+The Pico-API functions in the context of Zephyr compare with the metaphor of basic arithmetic operations  in the context of mathematics. The usage and meaning of the Pico-API functions can be intuitively understood, without knowledge of Zephyr hardcore stuff.
+
+
+## A Spec for Pico
+
+What are the first things we would like to get running on an embedded hardware?
+
+* Console: we want to print log output and see the text on a terminal program connected to a console
+*	Time: we want to know how system time can be read on microsecond granularity, and how we can sleep in low power mode for given microseconds
+*	Log: we want to have a log-level controlled log function for formatted/colored output to our console
+*	LED: we want to initialize and control a digital output connected to an LED
+*	Button: we want to initialize a digital input connected with a pushbutton and setup an according pushbutton callback
+
+Together these five topics form the core-specification of the Pico-API. Having these features available we have a powerful starter kit for debugging and to build quick and dirty user interfaces to visualize states with LEDs and to trigger manually invoked events with buttons.
+
+Additional requirements for the design of the Pico-API are:
+
+*	_Easy-to-Use_: Sole inclusion of the Pico-API header file (#include ”pico.API”) without need of linking an implementation (C-) file should make the functions available.
+
+*	_Smart Naming_: Object oriented languages like C++ offer smart naming of API functions by representing an API by a class instance and API functions by class members. E.g., we have syntax pico.led(…) for a call of member function led() of the pico API. The same can be achieved in C when the API is represented by a data structure with function pointers .
+
+*	_Modular Organization_: To enhance readability and portability the API should have modular organization. According to the Pico core-spec it should be organized as five self-contained basic header files: pico/console.h, pico/time.h, pico/log.h, pico/led.h and pico/button.h. None of the basic header files should have more than 50 lines!
+
+
+## A Playground for Pico
+
+One of the cheapest ways to get running with Zephyr/Pico is by means of a Nordic nRF52840 dongle, which can be bought for about 10 Euros (figure 1). It comes with one mono-color LED, one RGB LED (in total 4. LED channels) and one push-button.
+
+<p align="center">
+   <img src="./doc/image/dongle.jpg" width="400">
+</p>
+<p align="center">
+   Figure 1: nRF52840 dongle from Nordic
+</p>
+
+A good alternative is a Nordic nRF52832 (about 35€) or nRF52840 (about 45€) develop¬ment kit (DK), and for a combi pack with a dongle no shipping costs are charged. The DKs come with four LEDs and four push-buttons (figure 2).
+
+<p align="center">
+   <img src="./doc/image/dks.jpg" width="600">
+</p>
+<p align="center">
+   Figure 2: Nordic nRF52832 DK (left) and nRF52840 DK (right)
+</p>
+
+To enable logging from a Zephyr application running on a Nordic dongle requires some special knowledge and preparation.  With Pico we give you a free-riding ticket, which allows you to write code with logging, no matter if you run this code on a DK or on a dongle.
+All of these boards support Bluetooth and can be sourced at Mouser, Digikey, Farnell and others.
+
+
+## Pico API Member Functions
+
+<p align="center">
+   <img src="./doc/image/pico-main-api.jpg" width="400">
+</p>
+<p align="center">
+   Figure 3: Eight treasures - the Pico-API main functions
+</p>
+
+The API data structure is defined in `pico/api.h` as a structure of function
+pointers. The eight main member functions of the Pico-API have the following function prototypes:
 
 ```
-// main.c - 06-pico-api
-#include "pico/api.h"
+  typedef struct PI_api {
+    int (*console)(bool wait);
+    void (*prt)(PI_txt fmt,...);
+    void (*sleep)(PI_ms ms);
+    PI_us (*us)(void);
+    void (*log)(int lvl,PI_txt fmt,...);
+    void (*hello)(int lvl,PI_txt txt);
+    void (*led)(int i,int val);
+    int (*button)(void(*cb)(int i,int on));
+      // ...
+  } PI_api;  // pico API
 
-static bool enable[4] = {1,1,1,1};
+```
 
-static void clicked(int i, int on)
-{
-  log(1,"%sclick: @%d,%d", on?PI_G:PI_M,i,on);
-  if (on) enable[i%4] = !enable[i%4];  // toggle LED @i
-}
+It shall be noted that the Pico-API supports further four auxillary functions,
+which are for internal use and of of minor importance at the application level.
 
-static void now(void)  // print current time
-{
-  int min,s,ms,us;
-  pico.now(&min,&s,& ms,&us);
-  prt("time: [%d:%02d:%03d.%03d]\n",min,s,ms,us);
-}
+```
+  typedef struct PI_api {
+      // ...
+    PI_us (*clock)(PI_us us);
+    void (*now)(int *min,int *s,int *ms,int *us);
+    void (*vprt)(PI_txt fmt, va_list ap);
+    void (*vlog)(int lvl,PI_txt fmt, va_list ap);
+  } PI_api;  // pico API
+```
 
-static void wait(PI_us due) // wait until due
-{
-  pico.sleep(due-pico.ms()-1);  // sleep 1 ms less
-  while(pico.us() < 1000*due);
-}
+# Releases
 
-static void leds(bool on)   // set enabled LEDs
-{
-  for (int i=1;i<=4;i++) pico.led(i,enable[i%4]?on:0);
-}
-
-void main(void)
-{
-  pico.hello(4,"click any button");
-  pico.button(clicked);  // setup button callback
-
-  PI_ms time = 0;
-	for (bool on=0;;time+=500,on=!on)
-  {
-    wait(time);  // wait until die
-    now();       // print current time
-    leds(on);    // toggle enabled LEDs
-  }
-}
-
+```
+   v0.1.0    07-Mar-2023 First Release
 ```
