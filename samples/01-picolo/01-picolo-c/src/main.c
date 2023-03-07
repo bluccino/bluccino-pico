@@ -12,6 +12,8 @@ static void clicked(int i, int on)
 
 int main(void)
 {
+  for(;pico.console(0);pico.sleep(150*1000)) pico.led(0,-1);
+
   pico.hello(4,"click any button");
   pico.button(clicked);  // setup button callback
 
@@ -19,7 +21,7 @@ int main(void)
   {
     pico.sleep(due-pico.us());
     for (int i=1;i<=4;i++) pico.led(i,enable[i%4]?on:0);
-    if (due % 5000*1000 == 0) 
+    if (due % 5000*1000 == 0)
       pico.log(1,PI_Y "click any button!");
   }
   return 0;

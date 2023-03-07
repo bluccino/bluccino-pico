@@ -12,6 +12,7 @@ typedef const char *PI_txt;
 #ifdef CONFIG_USB_DEVICE_PRODUCT  // USB/COM
   static inline int pi_console(bool wait)
   {
+    static bool nowait = false; // toggle if !wait
     static uint32_t dtr = 0xff; // UART line ctrl DTR
     static const struct device *dev =
         DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
@@ -22,7 +23,9 @@ typedef const char *PI_txt;
     }
     for (dtr=0; dtr == 0; k_msleep(250)) {
       uart_line_ctrl_get(dev, UART_LINE_CTRL_DTR, &dtr);
-      if (!wait) return (dtr == 0);
+      if (!wait || nowait) {
+        nowait = true;  return (dtr == 0);
+      }
     }
     return (dtr == 0);  // return 0 if console ready
   }
