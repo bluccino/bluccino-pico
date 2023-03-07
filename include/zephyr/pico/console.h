@@ -30,9 +30,26 @@ typedef const char *PI_txt;
   static inline int pi_console(bool wait) { return 0; }
 #endif
 
-static inline void pi_vprt(PI_txt fmt, va_list ap)
+typedef void (*_PI_vprt_)(PI_txt fmt, va_list ap);
+static inline void pi_prt(PI_txt fmt,...);
+static inline void _vprt_init_(PI_txt fmt, va_list ap);
+
+static inline _PI_vprt_* _vprt_(void)
 {
-  vprintk(fmt, ap);
+  static _PI_vprt_ vprt = _vprt_init_;
+  return &vprt;
+}
+
+static inline void _vprt_init_(PI_txt fmt, va_list ap)
+{
+  *_vprt_() = vprintk; // use now vprintk
+  pi_console(true);  // wait for ready
+pi_prt(PI_B "console initialized!\n");
+}
+
+static inline void pi_vprt(PI_txt fmt,va_list ap)
+{
+  (*_vprt_())(fmt, ap);
 }
 
 static inline void pi_prt(PI_txt fmt,...)

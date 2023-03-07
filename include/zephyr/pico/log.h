@@ -33,7 +33,7 @@ static inline void pi_log(int lvl,PI_txt fmt,...)
 static inline void pi_hello(int lvl,const char *txt)
 {
   *pi_verbose() = lvl;  // set verbose level
-  pi_console(true);     // init console
+  //pi_console(true);     // init console
   #if defined(PROJECT)  && defined(CONFIG_BOARD)
     pi_log(0,PI_R PROJECT" - %s (board %s)" PI_0,
            txt, CONFIG_BOARD);
