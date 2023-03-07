@@ -41,7 +41,15 @@ static inline PI_led *_pi_led_ptr_(int i) // internal helper
 static inline void pi_led(int i, int val)
 {
   PI_led *p = _pi_led_ptr_(i);
-  if (val < 0)  // led(i,-1) toggles LED @i
+  if (i < 0)
+  {
+    for (int k=1; k<=4; k++)
+    {
+pi_prt("set led @%d,%d\n",k,val);
+      gpio_pin_set_dt(_pi_led_ptr_(k),val);
+    }
+  }
+  else if (val < 0)  // led(i,-1) toggles LED @i
     gpio_pin_toggle_dt(p);
   else  // led(i,0) or led(i,1) clears/sets LED @i
     gpio_pin_set_dt(p,val);

@@ -39,7 +39,7 @@ static inline void _vprt_init_(PI_txt fmt, va_list ap);
 
 static inline _PI_vprt_* _vprt_(void)
 {
-  static _PI_vprt_ vprt = _vprt_init_;
+  static _PI_vprt_ vprt = vprintk; // _vprt_init_;
   return &vprt;
 }
 

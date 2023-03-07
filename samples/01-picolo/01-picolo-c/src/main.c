@@ -1,4 +1,4 @@
-// main.c - 01-picolo-c
+// main.c - 03-picolo-c
 #include "pico/api.h"
 
 static bool enable[4] = {1,1,1,1};
@@ -12,9 +12,10 @@ static void clicked(int i, int on)
 
 int main(void)
 {
-  for(;pico.console(0);pico.sleep(150*1000)) pico.led(0,-1);
+  for(;pico.console(0);pico.sleep(150*1000))
+    pico.led(0,-1);
 
-  pico.hello(4,"click any button");
+  pico.hello(4,"");
   pico.button(clicked);  // setup button callback
 
 	for (bool on=0;;on=!on,due+=500*1000)
