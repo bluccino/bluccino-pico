@@ -16,11 +16,12 @@ int main(void)
   pico.hello(4,"click any button");
   pico.button(clicked);  // setup button callback
 
-	for (bool on=0;;on=!on,due+=500)
+	for (bool on=0;;on=!on,due+=500*1000)
   {
-    pico.sleep(due-pico.ms());
+    pico.sleep(due-pico.us());
     for (int i=1;i<=4;i++) pico.led(i,enable[i%4]?on:0);
-    if (due % 5000 == 0) pico.log(1,PI_Y "click any button!");
+    if (due % 5000*1000 == 0)
+      pico.log(1,PI_Y "click any button!");
   }
   return 0;
 }

@@ -43,17 +43,51 @@ The sample has support for the following boards:
 ## The Sample Code
 
 ```
-   // 03-pico-console
-   #include "pico/console.h"
+   // 01-numbers
+   #include "pico/api.h"
 
-   void main(void)
+   int main(void)
    {
-     pi_console(true); // init/wait for console ready
-     pi_prt(PROJECT " (board %s)\n",CONFIG_BOARD);
+     pico.console(true); // init/wait for console ready
+     pico.prt(PI_R PROJECT " (board %s)\n" PI_0,CONFIG_BOARD);
 
-	   for (int i=0;;i++,k_msleep(500))
-       pi_prt("number: %d\n",i);
+     for (int i=0;;i++,pico.sleep(500*1000))
+       pico.prt("number: %s%d\n" PI_0,i%5?PI_G:PI_R,i);
    }
+```
+
+
+## CMakeLists.txt
+
+```
+   cmake_minimum_required(VERSION 3.20.0)
+   find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
+
+   project(01-numbers)
+   add_definitions(-DPROJECT="${CMAKE_PROJECT_NAME}")
+
+   set (PICO ../../../include/zephyr)
+   include_directories(src ${PICO})
+   target_sources(app PRIVATE src/main.c)
+```
+
+
+## ANSI color sequence header (pico/ansi.h)
+
+```
+   // pico/ansi.h - ANSI color sequences
+   #ifndef __PICO_ANSI__
+   #define __PICO_ANSI__
+
+   #define PI_R     "\x1b[31m"        // red
+   #define PI_G     "\x1b[32m"        // green
+   #define PI_Y     "\x1b[33m"        // yellow
+   #define PI_B     "\x1b[34m"        // blue
+   #define PI_M     "\x1b[35m"        // magenta
+   #define PI_C     "\x1b[36m"        // cyan
+   #define PI_0     "\x1b[0m"         // neutral
+
+   #endif // __PICO_ANSI__
 ```
 
 
