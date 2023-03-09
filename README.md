@@ -81,7 +81,7 @@ All of these boards support Bluetooth and can be sourced at Mouser, Digikey, Far
    <img src="./doc/image/pico-main-api.jpg" width="400">
 </p>
 <p align="center">
-   Figure 3: Eight treasures - the Pico-API main functions
+   Figure 3: Eight treasures - the main Pico-API member functions
 </p>
 
 The API data structure is defined in `pico/api.h` as a structure of function
