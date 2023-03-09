@@ -3,7 +3,6 @@
 
 int main(void)
 {
-  pico.console(true);
   pico.prt(PI_R PROJECT " (%s)\n" PI_0,CONFIG_BOARD);
 
 	for (PI_us time=0;;time+=1010*1000)
