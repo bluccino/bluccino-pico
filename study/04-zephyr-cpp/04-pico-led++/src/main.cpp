@@ -1,6 +1,5 @@
 // main.cpp - 04-pico-led++
 #include "pico/api.h"
-Pico pico;
 
 int main(void)
 {

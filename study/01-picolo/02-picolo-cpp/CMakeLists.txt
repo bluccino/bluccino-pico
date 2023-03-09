@@ -8,4 +8,4 @@ add_definitions(-DPROJECT="${CMAKE_PROJECT_NAME}")
 
 set (PICO ../../../include/zephyr)
 include_directories(src ${PICO})
-target_sources(app PRIVATE src/main.*)
+target_sources(app PRIVATE src/main.cpp)

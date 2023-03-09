@@ -1,6 +1,6 @@
 // main.cpp - 04-api-study++
 #include "pico/api.h"
-Pico pi;  // Pico class instance
+#define  pi pico
 
 static PI_txt txt = "study memory usage";
 

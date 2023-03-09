@@ -1,7 +1,6 @@
 // main.cpp - 02-picolo-c++
 #include "pico/api.h"
 
-Pico pico;   // Pico class instance
 static bool enable[4] = {1,1,1,1};
 PI_ms due = 0;
 

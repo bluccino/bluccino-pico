@@ -46,30 +46,4 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-/*
-#ifdef __cplusplus
-  #define _PICO_ (*_pi_api_())
-
-  class Pico {
-    public:
-      Pico(bool wait=true)
-        { log(4,PI_B"console init ..."); console(wait); }
-      int console(bool wait)
-        { return _PICO_.console(wait); }
-      void prt(PI_txt fmt,...)
-        { va_list ap; va_start(ap,fmt); _PICO_.vprt(fmt,ap); va_end(ap); }
-      void sleep(PI_ms ms) { _PICO_.sleep(ms); }
-      PI_us us() { return _PICO_.us(); }
-      void log(int lvl,PI_txt fmt,...)
-        { va_list ap; va_start(ap,fmt); _PICO_.vlog(lvl,fmt,ap); va_end(ap); }
-      void hello(int lvl,PI_txt txt) { _PICO_.hello(lvl,txt); }
-      void led(int i, int val) { _PICO_.led(i,val); }
-      int button(void (*cb)(int i,int on)) { return _PICO_.button(cb); }
-      void now(int *min,int *s,int *ms,int *us)
-        { _PICO_.now(min,s,ms,us); }
-      PI_us clock(PI_us us)
-        { return pi_clock(us); }
-  };
-#endif // __cplusplus
-*/
 #endif // __PICO_API_H__

@@ -3,7 +3,6 @@
 
 int main(void)
 {
-  pico.console(true); // init/wait for console ready
   pico.prt(PI_R PROJECT " (board %s)\n" PI_0,CONFIG_BOARD);
 
 	for (int i=0;;i++,pico.sleep(500*1000))

@@ -1,6 +1,5 @@
 // main.cpp - 05-pico-button++
 #include "pico/api.h"
-Pico pico;  // Pico class instance
 
 static void clicked(int i, int on)
 {
