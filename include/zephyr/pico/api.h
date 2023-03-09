@@ -2,7 +2,7 @@
 #ifndef __PICO_API_H__
 #define __PICO_API_H__
 
-#include "pico/rtos.h"
+#include "pico/rtos.h"  // iclude first!
 
 #ifdef __cplusplus
 extern "C" {
@@ -41,10 +41,12 @@ extern "C" {
     return &pico;
   }
 
+  #define pico (*_pi_api_())
+
 #ifdef __cplusplus
 }
 #endif
-
+/*
 #ifdef __cplusplus
   #define _PICO_ (*_pi_api_())
 
@@ -68,7 +70,6 @@ extern "C" {
       PI_us clock(PI_us us)
         { return pi_clock(us); }
   };
-#else
-  #define pico (*_pi_api_())
 #endif // __cplusplus
+*/
 #endif // __PICO_API_H__
