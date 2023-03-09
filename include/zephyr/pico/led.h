@@ -10,7 +10,7 @@
 
 typedef const struct gpio_dt_spec PI_led; // shorthand
 
-static inline PI_led *_pi_led_ptr_(int i) // internal helper
+static inline PI_led *_pi_led_ptr_(int i) // helper
 {
   static PI_led ds[] = {
     #if DT_NODE_HAS_STATUS(LED0, okay)

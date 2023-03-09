@@ -14,7 +14,7 @@ extern "C" {
 
   typedef struct PI_api {
     int (*console)(bool wait);
-    void (*prt)(PI_txt fmt,...);
+    void (*print)(PI_txt fmt,...);
     void (*sleep)(PI_ms ms);
     PI_us (*us)(void);
     void (*log)(int lvl,PI_txt fmt,...);
@@ -31,12 +31,12 @@ extern "C" {
   static inline PI_api* _pi_api_(void)
   {
     static PI_api pico = {
-      .console=pi_console, .prt=pi_prt,
+      .console=pi_console, .print=pi_print,
       .sleep=pi_sleep, .us=pi_us,
       .log=pi_log, .hello=pi_hello,
       .led=pi_led, .button=pi_button,
       .clock=pi_clock, .now=pi_now,
-      .vprt=pi_vprt, .vlog=pi_vlog,
+      .vprint=pi_vprint, .vlog=pi_vlog,
     };
     return &pico;
   }

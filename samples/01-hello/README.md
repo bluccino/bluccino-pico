@@ -39,12 +39,12 @@ The sample has support for the following boards:
 ## The Sample Code
 
 ```
-   // main.c - 00-hello-pico
+   // main.c - 01-hello
    #include "pico/api.h"
 
    void main(void)
    {
-     pico.prt("hello, pico!\n");
+     pico.print("hello, world\n");
    }
 ```
 

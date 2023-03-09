@@ -37,28 +37,27 @@ typedef void (*_PI_vprt_)(PI_txt fmt, va_list ap);
 static inline void pi_prt(PI_txt fmt,...);
 static inline void _vprt_init_(PI_txt fmt, va_list ap);
 
-static inline _PI_vprt_* _vprt_(void)
+static inline _PI_vprt_* _vprint_(void)
 {
-  static _PI_vprt_ vprt = _vprt_init_;
-  return &vprt;
+  static _PI_vprt_ vprint = _vprintt_init_;
+  return &vprint;
 }
 
 static inline void _vprt_init_(PI_txt fmt, va_list ap)
 {
-  *_vprt_() = vprintk; // use now vprintk
-  pi_console(true);    // wait for ready
-  vprintk(fmt,ap);     // our original task
+  *_vprint_() = vprintk; // use now vprintk
+  pi_console(true);      // wait for ready
+  vprintk(fmt,ap);       // our original task
 }
 
-static inline void pi_vprt(PI_txt fmt,va_list ap)
+static inline void pi_vprint(PI_txt fmt,va_list ap)
 {
-  (*_vprt_())(fmt, ap);
+  (*_vprint_())(fmt, ap);
 }
 
-static inline void pi_prt(PI_txt fmt,...)
+static inline void pi_print(PI_txt fmt,...)
 {
   va_list ap;
-	va_start(ap,fmt); pi_vprt(fmt, ap);	va_end(ap);
+	va_start(ap,fmt); pi_vprint(fmt, ap);	va_end(ap);
 }
-
 #endif // __PICO_CONSOLE__
