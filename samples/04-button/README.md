@@ -1,4 +1,4 @@
-# Sample 01-hello
+# Sample 04-button
 
 To be done ...
 
@@ -37,16 +37,6 @@ The sample has support for the following boards:
 ```
 
 ## The Sample Code
-
-```
-   // main.c - 01-hello
-   #include "pico/api.h"
-
-   void main(void)
-   {
-     pico.print("hello, world\n");
-   }
-```
 
 ### Mini LED API
 ```

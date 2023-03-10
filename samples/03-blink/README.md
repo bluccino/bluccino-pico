@@ -1,19 +1,4 @@
-# Sample 01-hello
-
-To be done ...
-
-
-
-
-
-
-
-
-
-
-
-
-
+# Sample 03-blink
 
 ## Description
 
@@ -38,16 +23,6 @@ The sample has support for the following boards:
 
 ## The Sample Code
 
-```
-   // main.c - 01-hello
-   #include "pico/api.h"
-
-   void main(void)
-   {
-     pico.print("hello, world\n");
-   }
-```
-
 ### Mini LED API
 ```
    // led.h - mini LED API
@@ -58,22 +33,22 @@ The sample has support for the following boards:
    #include <zephyr/drivers/gpio.h>
 
    #define LED  DT_NODELABEL(led0)
-   typedef const struct gpio_dt_spec led_dt; // shorthand
+   typedef const struct gpio_dt_spec led_t; // shorthand
 
-   static inline led_dt *led_init(void)
+   static inline led_t *led_init(void)
    {
-     static led_dt led = GPIO_DT_SPEC_GET(LED, gpios);
+     static led_t ds = GPIO_DT_SPEC_GET(LED, gpios);
 
-     if (!device_is_ready(led.port)) {
+     if (!device_is_ready(ds.port)) {
        printk("error %d: LED device not ready\n",ENODEV);
        return NULL;
      }
 
-     gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE);
-     return &led;
+     gpio_pin_configure_dt(&ds, GPIO_OUTPUT_ACTIVE);
+     return &ds;
    }
 
-   static inline void led_toggle(led_dt *led)
+   static inline void led_toggle(led_t *led)
    {
      gpio_pin_toggle_dt(led);
    }
@@ -90,7 +65,7 @@ The sample has support for the following boards:
    void main(void)
    {
      printk("03-blinker (board %s)\n",CONFIG_BOARD);
-     led_dt *led = led_init();
+     led_t *led = led_init();
 
 	  for (;led;k_msleep(500))
   	    led_toggle(led);

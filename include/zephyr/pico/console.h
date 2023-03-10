@@ -1,11 +1,7 @@
 // pico/console.h - pico CONSOLE API
 #ifndef __PICO_CONSOLE__
 #define __PICO_CONSOLE__
-
-#include <zephyr/kernel.h>
-#include <zephyr/usb/usb_device.h>
-#include <zephyr/drivers/uart.h>
-#include "pico/ansi.h"
+#include "pico/rtos.h"
 
 typedef const char *PI_txt;
 
@@ -33,17 +29,17 @@ typedef const char *PI_txt;
   static inline int pi_console(bool wait) { return 0; }
 #endif
 
-typedef void (*_PI_vprt_)(PI_txt fmt, va_list ap);
-static inline void pi_prt(PI_txt fmt,...);
-static inline void _vprt_init_(PI_txt fmt, va_list ap);
+typedef void (*_PI_vprint_)(PI_txt fmt, va_list ap);
+static inline void pi_print(PI_txt fmt,...);
+static inline void _vprint_init_(PI_txt fmt, va_list ap);
 
-static inline _PI_vprt_* _vprint_(void)
+static inline _PI_vprint_* _vprint_(void)
 {
-  static _PI_vprt_ vprint = _vprintt_init_;
+  static _PI_vprint_ vprint = _vprint_init_;
   return &vprint;
 }
 
-static inline void _vprt_init_(PI_txt fmt, va_list ap)
+static inline void _vprint_init_(PI_txt fmt, va_list ap)
 {
   *_vprint_() = vprintk; // use now vprintk
   pi_console(true);      // wait for ready
