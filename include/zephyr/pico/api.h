@@ -19,7 +19,8 @@ extern "C" {
     int (*log)(int lvl,PI_txt fmt,...);
     void (*hello)(int lvl,PI_txt txt);
     void (*led)(int i,int val);
-    int (*button)(void(*cb)(int i,int on));
+    void (*button)(void(*cb)(int i,int on));
+    int (*poll)(int i);
 
     PI_us (*clock)(PI_us us);
     void (*now)(int *min,int *s,int *ms,int *us);
@@ -34,7 +35,8 @@ extern "C" {
       .print=pi_print, .sleep=pi_sleep,
       .us=pi_us, .log=pi_log,
       .hello=pi_hello, .led=pi_led,
-      .button=pi_button, .clock=pi_clock,
+      .button=pi_button, .poll=pi_poll,
+      .clock=pi_clock,
       .now=pi_now, .console=pi_console,
       .vprint=pi_vprint, .vlog=pi_vlog,
     };
