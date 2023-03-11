@@ -5,7 +5,7 @@ static bool dir = 0;
 
 static void pressed(int i, int on)
 {
-  if (pico.log(2,""))
+  if (!pico.log(2,""))
     pico.print("button @%d %s\n",i,on?"pressed":"released");
   if (on) dir = !dir;  // change direction
 }
@@ -16,7 +16,7 @@ void main(void)
   PI_txt col[] = {PI_R, PI_G, PI_B, PI_G, PI_R};
   int idx[] = {2,3,4,3,2};
 
-  for(;!pico.log(0,NULL);pico.sleep(250*1000))
+  for(;pico.log(0,NULL);pico.sleep(250*1000))
     pico.led(1,-1); // blink until console ready
 
   pico.hello(4,""); // verbose level, hello msg
