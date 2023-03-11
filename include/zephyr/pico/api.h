@@ -7,7 +7,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
   #include "pico/button.h"
   #include "pico/led.h"
   #include "pico/log.h"
@@ -44,7 +43,6 @@ extern "C" {
   }
 
   #define pico (*_pi_api_())
-
 #ifdef __cplusplus
 }
 #endif

@@ -5,9 +5,6 @@
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
 
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#include "pico/console.h"
-//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 #define BUTTON0  DT_ALIAS(sw0)  // DT node ID for button @1
 #define BUTTON1  DT_ALIAS(sw1)  // DT node ID for button @2
 #define BUTTON2  DT_ALIAS(sw2)  // DT node ID for button @3
@@ -24,9 +21,7 @@ static inline void _button_isr_(const struct device *dev,
   struct gpio_callback *ctx, uint32_t pins)
 {
   PI_button *p = CONTAINER_OF(ctx,PI_button,context);
-int on=0;pi_print("button @%d: %d (%p)\n",p->ix,on,p->cb);
-return;
-  //int on = gpio_pin_get_dt(&p->ds);
+  int on = gpio_pin_get_dt(&p->ds);
   if (p->cb) p->cb(p->ix,on);
 }
 
@@ -55,7 +50,6 @@ static inline PI_button *
       printk("error %d: BUTTON device not ready\n",-ENODEV);
       continue;
     }
-pi_print("set button @%d callback (%d)\n",n+1,p-but);
     p->cb = cb;  // store application callback
     gpio_pin_configure_dt(&p->ds,GPIO_INPUT);
     gpio_pin_interrupt_configure_dt(&p->ds,GPIO_INT_EDGE_BOTH);
@@ -67,16 +61,13 @@ pi_print("set button @%d callback (%d)\n",n+1,p-but);
 
 static inline void pi_button(void (*cb)(int i,int on))
 {
-//>>>>>>>>>>>>>>>>>>>>>>>
-cb(88,66);
-//<<<<<<<<<<<<<<<<<<<<<<<
   _pi_button_ptr_(0,cb);
 }
 
 static inline int pi_poll(int i)
 {
   PI_button *p = _pi_button_ptr_(i,NULL);
-  return gpio_pin_get_dt(&p->ds);
+  return p ? gpio_pin_get_dt(&p->ds) : 0;
 }
 
 #endif // __PICO_BUTTON_H__

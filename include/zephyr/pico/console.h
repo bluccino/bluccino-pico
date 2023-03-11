@@ -41,7 +41,7 @@ static inline _PI_vprint_* _vprint_(void)
 
 static inline void _vprint_init_(PI_txt fmt, va_list ap)
 {
-  *_vprint_() = vprintk; // use now vprintk
+  *_vprint_() = vprintk; // use vprintk from now
   pi_console(true);      // wait for ready
   vprintk(fmt,ap);       // our original task
 }
