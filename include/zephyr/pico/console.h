@@ -1,11 +1,7 @@
 // pico/console.h - pico CONSOLE API
 #ifndef __PICO_CONSOLE__
 #define __PICO_CONSOLE__
-
-#include <zephyr/kernel.h>
-#include <zephyr/usb/usb_device.h>
-#include <zephyr/drivers/uart.h>
-#include "pico/ansi.h"
+#include "pico/rtos.h"
 
 typedef const char *PI_txt;
 
@@ -33,32 +29,31 @@ typedef const char *PI_txt;
   static inline int pi_console(bool wait) { return 0; }
 #endif
 
-typedef void (*_PI_vprt_)(PI_txt fmt, va_list ap);
-static inline void pi_prt(PI_txt fmt,...);
-static inline void _vprt_init_(PI_txt fmt, va_list ap);
+typedef void (*_PI_vprint_)(PI_txt fmt, va_list ap);
+static inline void pi_print(PI_txt fmt,...);
+static inline void _vprint_init_(PI_txt fmt, va_list ap);
 
-static inline _PI_vprt_* _vprt_(void)
+static inline _PI_vprint_* _vprint_(void)
 {
-  static _PI_vprt_ vprt = _vprt_init_;
-  return &vprt;
+  static _PI_vprint_ vprint = _vprint_init_;
+  return &vprint;
 }
 
-static inline void _vprt_init_(PI_txt fmt, va_list ap)
+static inline void _vprint_init_(PI_txt fmt, va_list ap)
 {
-  *_vprt_() = vprintk; // use now vprintk
-  pi_console(true);    // wait for ready
-  vprintk(fmt,ap);     // our original task
+  *_vprint_() = vprintk; // use vprintk from now
+  pi_console(true);      // wait for ready
+  vprintk(fmt,ap);       // our original task
 }
 
-static inline void pi_vprt(PI_txt fmt,va_list ap)
+static inline void pi_vprint(PI_txt fmt,va_list ap)
 {
-  (*_vprt_())(fmt, ap);
+  (*_vprint_())(fmt, ap);
 }
 
-static inline void pi_prt(PI_txt fmt,...)
+static inline void pi_print(PI_txt fmt,...)
 {
   va_list ap;
-	va_start(ap,fmt); pi_vprt(fmt, ap);	va_end(ap);
+	va_start(ap,fmt); pi_vprint(fmt, ap);	va_end(ap);
 }
-
 #endif // __PICO_CONSOLE__
