@@ -2,9 +2,35 @@
 
 To be done ...
 
+## Main Pico-API
 
 
+```
+  typedef struct PI_api {
+    void (*print)(PI_txt fmt,...);
+    void (*sleep)(PI_ms ms);
+    PI_us (*us)(void);
+    int (*log)(int lvl,PI_txt fmt,...);
+    void (*hello)(int lvl,PI_txt txt);
+    void (*led)(int i,int val);
+    int (*button)(void(*cb)(int i,int on));
+    // ...
+  } PI_api;  // pico API
+```
 
+## Auxiliary Pico-API
+
+
+```
+  typedef struct PI_api {
+    // ...
+    PI_us (*clock)(PI_us us);
+    void (*now)(int *min,int *s,int *ms,int *us);
+    int (*console)(bool wait);
+    void (*vprint)(PI_txt fmt, va_list ap);
+    int (*vlog)(int lvl,PI_txt fmt, va_list ap);
+  } PI_api;  // pico API
+```
 
 
 

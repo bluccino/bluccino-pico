@@ -25,9 +25,9 @@ static inline int pi_vlog(int lvl,PI_txt fmt,va_list ap)
       pi_vprint(fmt,ap);
       pi_print("\n" PI_0);
     }
-    return 1;
+    return 0; // log OK
   }
-  return 0;
+  return 1; // log suppressed
 }
 
 static inline int pi_log(int lvl,PI_txt fmt,...)
