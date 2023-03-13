@@ -20,10 +20,10 @@ static inline PI_us pi_us(void) // get current us-clock time
   return us  - offset;  // return us clock time
 }
 
-static inline void pi_now(int *pmin, int *psec, int *pms, int *pus)
+static inline void pi_now
+  (int *ph, int *pmin, int *psec, int *pms, int *pus)
 {
-  static int min = 0;
-  static int sec = 0;
+  static int min = 0; static int sec = 0;
   static PI_ms offset = 0;
   PI_us us = pi_us();   // clock time now in us
 
@@ -38,7 +38,7 @@ static inline void pi_now(int *pmin, int *psec, int *pms, int *pus)
   for (; sec >= 60; min++)
     sec -= 60;
 
-  *pmin = min;  *psec = sec;
+  *ph = min/60;  *pmin = min%60;  *psec = sec;
 }
 
 static inline void pi_sleep(PI_us us)              // deep sleep for given milliseconds

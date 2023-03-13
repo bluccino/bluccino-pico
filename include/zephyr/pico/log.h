@@ -17,9 +17,9 @@ static inline int pi_vlog(int lvl,PI_txt fmt,va_list ap)
   if (!fmt)
     return pi_console(false); // return err if not ready
   else if (lvl <= *pi_verbose()) {
-    int min,s,ms,us;
-    pi_now(&min,&s,&ms,&us);
-    pi_print("#%d[%05d:%02d:%03d.%03d] ",lvl,min,s,ms,us);
+    int h,min,s,ms,us;
+    pi_now(&h,&min,&s,&ms,&us);
+    pi_print("#%d[%d:%02d:%02d:%03d.%03d] ",lvl,h,min,s,ms,us);
     for (int i=0;i < lvl;i++) pi_print("  ");
     if (*fmt) {
       pi_vprint(fmt,ap);

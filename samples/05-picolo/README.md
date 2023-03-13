@@ -1,6 +1,56 @@
 # Sample 05-picolo
 
-To be done ...
+## Description
+
+* sample application to demonstrate cntrol of a GPIO pin on very deep level
+* control is implemented by utilizing `GPIO` driver API
+* parameters for gpio pin control are retrieved from devicetree
+* the sample needs to provide an overlay file for each support to contribute
+  to the specific DTS
+* in addition a binding (file: ./dts/bindings/blinker-parameters.yaml) has to be
+  provided for a devicetree node with compatibility "blinker-parameters"
+
+
+## Supported Boards
+
+The sample has support for the following boards:
+```
+     1) nrf52dk_nrf52832         (Nordic 832 DK)
+     2) nrf52840dk_nrf52840      (Nordic 840 DK)
+     3) nrf52840dongle_nrf52840  (Nordic 840 dongle)
+     4) nucleo_l053r8            (ST Nucleo L053 DK)
+```
+
+
+## Output
+
+
+
+```
+   #0[00000:00:000.000] 05-picolo -  (board nrf52840dongle_nrf52840, pico v0.1.0)
+   #1[00000:00:014.648]   red
+   #1[00000:00:500.122]   green
+   #1[00000:01:000.092]   blue
+   #1[00000:01:500.122]   red
+   #1[00000:02:000.061]   green
+   #1[00000:02:500.061]   blue
+   #1[00000:03:000.122]   red
+   #2[00000:03:306.305]     button states: 1 -1 -1 -1
+   #2[00000:03:484.528]     button states: 0 -1 -1 -1
+   #1[00000:03:500.061]   green
+   #1[00000:04:000.122]   red
+   #1[00000:04:500.061]   green
+   #1[00000:05:000.061]   red
+   #1[00000:05:500.122]   green
+   #1[00000:06:000.122]   red
+```
+
+
+
+
+
+
+
 
 ## Main Pico-API
 
@@ -41,26 +91,6 @@ To be done ...
 
 
 
-## Description
-
-* sample application to demonstrate cntrol of a GPIO pin on very deep level
-* control is implemented by utilizing `GPIO` driver API
-* parameters for gpio pin control are retrieved from devicetree
-* the sample needs to provide an overlay file for each support to contribute
-  to the specific DTS
-* in addition a binding (file: ./dts/bindings/blinker-parameters.yaml) has to be
-  provided for a devicetree node with compatibility "blinker-parameters"
-
-
-## Supported Boards
-
-The sample has support for the following boards:
-```
-     1) nrf52dk_nrf52832         (Nordic 832 DK)
-     2) nrf52840dk_nrf52840      (Nordic 840 DK)
-     3) nrf52840dongle_nrf52840  (Nordic 840 dongle)
-     4) nucleo_l053r8            (ST Nucleo L053 DK)
-```
 
 ## The Sample Code
 
