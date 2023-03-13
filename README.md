@@ -89,14 +89,14 @@ pointers. The eight main member functions of the Pico-API have the following fun
 
 ```
   typedef struct PI_api {
-    int (*console)(bool wait);
-    void (*prt)(PI_txt fmt,...);
+    void (*print)(PI_txt fmt,...);
     void (*sleep)(PI_ms ms);
     PI_us (*us)(void);
-    void (*log)(int lvl,PI_txt fmt,...);
+    int (*log)(int lvl,PI_txt fmt,...);
     void (*hello)(int lvl,PI_txt txt);
-    void (*led)(int i,int val);
-    int (*button)(void(*cb)(int i,int on));
+    int (*led)(int i,int val);
+    void (*button)(void(*cb)(int i,int on));
+    int (*poll)(int i);
       // ...
   } PI_api;  // pico API
 
@@ -110,8 +110,9 @@ which are for internal use and of of minor importance at the application level.
       // ...
     PI_us (*clock)(PI_us us);
     void (*now)(int *min,int *s,int *ms,int *us);
-    void (*vprt)(PI_txt fmt, va_list ap);
-    void (*vlog)(int lvl,PI_txt fmt, va_list ap);
+    int (*console)(bool wait);
+    void (*vprint)(PI_txt fmt, va_list ap);
+    int (*vlog)(int lvl,PI_txt fmt, va_list ap);
   } PI_api;  // pico API
 ```
 
