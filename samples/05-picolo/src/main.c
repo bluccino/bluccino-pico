@@ -28,8 +28,10 @@ void main(void)
   pico.hello(4,""); // verbose level, hello msg
   pico.button(pressed); // init/setup button cb
 
-	for (int i=0;;i++,pico.sleep(500*1000))
+  PI_us time = 0;
+	for (int i=0;; i++, time += 500*1000)
   {
+    pico.sleep(time-pico.us());
     int k = index[2*mode + i % (mode==3?3:2)];
     pico.log(1,"%s%s",col[k],txt[k]);
     pico.led(-1,0);    // all LEDs off
