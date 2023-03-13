@@ -5,10 +5,10 @@
 #include <zephyr/kernel.h>
 #include <zephyr/drivers/gpio.h>
 
-#define BUTTON0  DT_ALIAS(sw0)  // DT node ID for button @1
-#define BUTTON1  DT_ALIAS(sw1)  // DT node ID for button @2
-#define BUTTON2  DT_ALIAS(sw2)  // DT node ID for button @3
-#define BUTTON3  DT_ALIAS(sw3)  // DT node ID for button @4
+#define PI_BUT0  DT_ALIAS(sw0)  // DT node ID for button @1
+#define PI_BUT1  DT_ALIAS(sw1)  // DT node ID for button @2
+#define PI_BUT2  DT_ALIAS(sw2)  // DT node ID for button @3
+#define PI_BUT3  DT_ALIAS(sw3)  // DT node ID for button @4
 
 typedef struct {
   int ix;                       // button index
@@ -29,17 +29,17 @@ static inline PI_button *
   _pi_button_ptr_(int i,void (*cb)(int i,int on))
 {
   static PI_button but[] = {
-    #if DT_NODE_HAS_STATUS(BUTTON0, okay)
-      {.ix=1, .ds=GPIO_DT_SPEC_GET_OR(BUTTON0,gpios,{0})},
+    #if DT_NODE_HAS_STATUS(PI_BUT0, okay)
+      {.ix=1, .ds=GPIO_DT_SPEC_GET_OR(PI_BUT0,gpios,{0})},
     #endif
-    #if DT_NODE_HAS_STATUS(BUTTON1, okay)
-      {.ix=2, .ds=GPIO_DT_SPEC_GET_OR(BUTTON1,gpios,{0})},
+    #if DT_NODE_HAS_STATUS(PI_BUT1, okay)
+      {.ix=2, .ds=GPIO_DT_SPEC_GET_OR(PI_BUT1,gpios,{0})},
     #endif
-    #if DT_NODE_HAS_STATUS(BUTTON2, okay)
-      {.ix=3, .ds=GPIO_DT_SPEC_GET_OR(BUTTON2,gpios,{0})},
+    #if DT_NODE_HAS_STATUS(PI_BUT2, okay)
+      {.ix=3, .ds=GPIO_DT_SPEC_GET_OR(PI_BUT2,gpios,{0})},
     #endif
-    #if DT_NODE_HAS_STATUS(BUTTON3, okay)
-      {.ix=4, .ds=GPIO_DT_SPEC_GET_OR(BUTTON3,gpios,{0})},
+    #if DT_NODE_HAS_STATUS(PI_BUT3, okay)
+      {.ix=4, .ds=GPIO_DT_SPEC_GET_OR(PI_BUT3,gpios,{0})},
     #endif
   };
 
@@ -67,7 +67,7 @@ static inline void pi_button(void (*cb)(int i,int on))
 static inline int pi_poll(int i)
 {
   PI_button *p = _pi_button_ptr_(i,NULL);
-  return p ? gpio_pin_get_dt(&p->ds) : 0;
+  return p ? gpio_pin_get_dt(&p->ds) : -1;
 }
 
 #endif // __PICO_BUTTON_H__
