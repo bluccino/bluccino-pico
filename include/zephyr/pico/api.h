@@ -17,7 +17,7 @@ extern "C" {
     PI_us (*us)(void);
     int (*log)(int lvl,PI_txt fmt,...);
     void (*hello)(int lvl,PI_txt txt);
-    void (*led)(int i,int val);
+    int (*led)(int i,int val);
     void (*button)(void(*cb)(int i,int on));
     int (*poll)(int i);
 
