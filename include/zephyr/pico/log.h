@@ -6,17 +6,33 @@
 #include "pico/time.h"
 #include "pico/version.h"
 
-static inline int *pi_verbose(void)
+//==============================================================================
+// helper: set verbose level
+// - usage: *_pi_verbose_() = 2        // set verbose level
+//          verbose = *_pi_verbose_()  // get verbose level
+//==============================================================================
+
+static inline int *_pi_verbose_(void)
 {
   static int verbose = 0;
   return &verbose;
 }
 
+//==============================================================================
+// variable arg list based formatted logging with log level
+// - usage: pi_vlog(lvl,"here we go",ap); // log text if lvl <= verbose level
+//          err = pi_vlog(0,NULL,ap);     // get ready state of console
+//          ready = !pi_vlog(0,NULL,ap);  // is console ready
+// - return value:
+//   1) err = pi_vlog(0,NULL,ap)  // err=0 no error/ready, err:non-zero err code
+//   2) else: err=0 if log performed, err=1 if log suppressed
+//==============================================================================
+
 static inline int pi_vlog(int lvl,PI_txt fmt,va_list ap)
 {
   if (!fmt)
     return pi_console(false); // return err if not ready
-  else if (lvl <= *pi_verbose()) {
+  else if (lvl <= *_pi_verbose_()) {
     int h,min,s,ms,us;
     pi_now(&h,&min,&s,&ms,&us);
     pi_print("#%d[%d:%02d:%02d:%03d.%03d] ",lvl,h,min,s,ms,us);
@@ -30,6 +46,13 @@ static inline int pi_vlog(int lvl,PI_txt fmt,va_list ap)
   return 1; // log suppressed
 }
 
+//==============================================================================
+// formatted logging with log level
+// - usage: pi_log(lvl,"here we go"); // log text if lvl <= verbose level
+//          err = pi_log(0,NULL);     // get ready state of console
+//          ready = !pi_log(0,NULL);  // is console ready
+//==============================================================================
+
 static inline int pi_log(int lvl,PI_txt fmt,...)
 {
   va_list ap;  int err;
@@ -37,14 +60,27 @@ static inline int pi_log(int lvl,PI_txt fmt,...)
   return err;
 }
 
-static inline void pi_hello(int lvl,const char *txt)
+//==============================================================================
+// set log level and print hello message
+// print project/board info and Pico version number
+// - usage: pi_hello(lvl,"");  // set verbose level, print project/board/version
+//          pi_hello(lvl,"let's go ...");// set verbose level, add specific msg
+//          old = pi_hello(lvl,NULL);    // get old/change verbose lvl, no print
+//          verbose = pi_hello(-1,NULL); // get verbose level, no print
+//==============================================================================
+
+static inline int pi_hello(int lvl,PI_txt txt)
 {
-  *pi_verbose() = lvl;  // set verbose level
-  #if defined(PROJECT)  && defined(CONFIG_BOARD)
-    pi_log(0,PI_R PROJECT" - %s (board %s, pico %s)" PI_0,
-           txt, CONFIG_BOARD,PI_VERSION);
-  #else
-    pi_log(1,PI_R "%s (pico %s)" PI_0, txt,PI_VERSION);
-  #endif
+  int old = *_pi_verbose_();
+  if (lvl >= 0) *_pi_verbose_() = lvl;  // set verbose level
+  if (txt) {
+  	#if defined(PROJECT)  && defined(CONFIG_BOARD)
+    	pi_log(0,PI_R PROJECT" - %s (board %s, pico %s)" PI_0,
+           		txt, CONFIG_BOARD,PI_VERSION);
+  	#else
+			pi_log(1,PI_R "%s (pico %s)" PI_0, txt,PI_VERSION);
+		#endif
+  }
+  return old;
 }
 #endif // __PICO_LOG__

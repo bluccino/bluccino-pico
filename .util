@@ -1,0 +1,2 @@
+PICO=$PWD
+alias ec=$PWD/util/bin/ec
