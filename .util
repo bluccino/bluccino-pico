@@ -1,2 +1,5 @@
 PICO=$PWD
-alias ec=$PWD/util/bin/ec
+#export HELPBASH=
+alias ec=$PWD/util/bin/ec.bash
+alias help='bash $PICO/util/bin/help.bash'
+echo '  type `help pico` for help on PICO utilities!'
