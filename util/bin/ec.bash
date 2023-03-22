@@ -1,5 +1,5 @@
 #!/bin/bash
-# ec: echo args with color options
+# ec.bash: echo args with color options
 
   if [ "$*" == "-?" ]; then
     echo 'usage: ec ...     # (uncolored) echo ...'
