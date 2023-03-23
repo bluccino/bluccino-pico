@@ -1,5 +1,5 @@
 #!/bin/bash
-# ev.bash: set/list utility related environment variable(s)
+# ev.sh: set/list utility related environment variable(s)
 
   if [ "$*" == "-?" ]; then
     echo '  usage: ev                        # list environment variables'
@@ -30,7 +30,7 @@
     if [ "$3" ==  "" ]; then
       export BOARD="$2"
     else
-      bash $REPO/util/bin/ev.bash -?
+      bash $REPO/util/bin/ev.sh -?
     fi
   fi
 
@@ -39,10 +39,9 @@
 #===============================================================================
 
   if [ "$1" == "-s" ] && [ "$2" != "" ]; then
-ec -r $2
     if [ "$3" ==  "" ]; then
       export SEGGER="$2"
     else
-      bash $REPO/util/bin/ev.bash -?
+      bash $REPO/util/bin/ev.sh -?
     fi
   fi
