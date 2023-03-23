@@ -50,7 +50,7 @@
 
   if [ "$*" == "" ]; then
      ec -y te $TE_ARGS
-     te $TE_ARGS
+     bash $REPO/util/bin/te.bash $TE_ARGS
   fi
 
 #===============================================================================
@@ -100,7 +100,7 @@
 
    if [ "$1" == "-u" ]; then
       TE_ARGS="$1 $TE_TAG"
-      USB=`te -d`
+      USB=`bash $REPO/util/bin/te.bash -d`
       ec -y tio $USB
       tio $USB
    fi
