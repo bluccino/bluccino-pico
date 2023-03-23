@@ -3,7 +3,7 @@
 
   if [ "$*" == "" ]; then
     echo  "  help bash   # help on BASH commands"
-    echo  "  help pico   # help on PICO utilities"
+    echo  "  help util   # help on local utilities"
     exit 0
   fi
 
@@ -13,10 +13,11 @@
     exit 0
   fi
 
-  if [ "$*" == "pico" ]; then
-    ec -g "Help on PICO utilities"
-    echo  "  ec -?       # echo args with color options"
+  if [ "$*" == "util" ]; then
+    ec -g "Help on special utilities"
     echo  "  bd -?       # board setup"
+    echo  "  ec -?       # echo args with color options"
+    echo  "  ev -?       # set/list environment variable(s)"
     echo  "  te -?       # terminal utility"
     echo  "  we -?       # west command shorthands"
     echo  "  ze -?       # select zephyr version"

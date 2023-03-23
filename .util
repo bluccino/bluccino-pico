@@ -1,5 +1,8 @@
-PICO=$PWD
-#export HELPBASH=
+export REPO=$PWD
+alias help='bash $REPO/util/bin/help.bash'
 alias ec=$PWD/util/bin/ec.bash
-alias help='bash $PICO/util/bin/help.bash'
-echo '  type `help pico` for help on PICO utilities!'
+alias ev='source $REPO/util/bin/ev.bash'
+alias te='bash $REPO/util/bin/te.bash'
+alias bd='bash $REPO/util/bin/bd.bash'
+alias ww='bash $REPO/util/bin/ww.bash'
+echo '  type `help util` for help on local utilities!'
