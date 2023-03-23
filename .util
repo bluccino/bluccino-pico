@@ -2,7 +2,7 @@ export REPO=$PWD
 alias help='bash $REPO/util/bin/help.sh'
 alias ec=$PWD/util/bin/ec.sh
 alias ev='source $REPO/util/bin/ev.sh'
-alias te='bash $REPO/util/bin/te.sh'
-alias bd='bash $REPO/util/bin/bd.sh'
+alias te='source $REPO/util/bin/te.sh'
+alias bd='source $REPO/util/bin/bd.sh'
 alias ww='bash $REPO/util/bin/ww.sh'
 echo '  type `help util` for help on local utilities!'
