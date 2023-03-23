@@ -42,7 +42,7 @@
          echo "  export SEGGER=$SEGGER"   >>$REPO/util/etc/boards/$BRDID
          echo "  export BRDINFO='"$BRDINFO"'" >>$REPO/util/etc/boards/$BRDID
       else
-        ec -r '*** error: missing $REPO/util/etc/boards directory'
+        ec -r 'error: missing $REPO/util/etc/boards directory'
       fi
     fi
     _SELECT_=false
@@ -66,12 +66,26 @@
         if [ -f $REPO/util/etc/boards/"$_TAG_" ]; then
           source $REPO/util/etc/boards/"$_TAG_"
         else
-          bash $REPO/util/bin/ec.sh -r "*** error: board $_TAG_ not defined!"
+          bash $REPO/util/bin/ec.sh -r "error: board $_TAG_ not defined!"
         fi
       done
       bash $REPO/util/bin/bd.sh
     else
       ec -r "error: board $2 not defined!"
+    fi
+    _SELECT_=false
+  fi
+
+#===============================================================================
+# print board info
+#===============================================================================
+
+  if [ "$1" == "-p" ] && [ "$2" != "" ]; then
+    source "$REPO/util/etc/boards/$2"
+    if [ "$BRDINFO" == "" ]; then
+      echo "    $2:  $BOARD, #$SEGGER"
+    else
+      echo "    $2:  $BOARD, #$SEGGER ($BRDINFO)"
     fi
     _SELECT_=false
   fi
@@ -89,25 +103,12 @@
       bash $REPO/util/bin/bd.sh -p $_TAG_
     done
     _SELECT_=false
-  elif [ "$1" != "" ] && [ "$2" == "" ] && [ "_SELECT_" == "true" ]; then
+  elif [ "$1" != "" ] && [ "$2" == "" ] && [ "$_SELECT_" == "true" ]; then
     if [ -f $REPO/util/etc/boards/"$1" ]; then
       source $REPO/util/etc/boards/"$1"
       bash $REPO/util/bin/bd.sh
     else
-      bash $REPO/util/bin/ec.sh -r "*** error: board $1 not defined!"
-    fi
-  fi
-
-#===============================================================================
-# print board info
-#===============================================================================
-
-  if [ "$1" == "-p" ] && [ "$2" != "" ]; then
-    source "$REPO/util/etc/boards/$2"
-    if [ "$BRDINFO" == "" ]; then
-      echo "    $2:  $BOARD, #$SEGGER"
-    else
-      echo "    $2:  $BOARD, #$SEGGER ($BRDINFO)"
+      bash $REPO/util/bin/ec.sh -r "error: board $1 not defined!"
     fi
   fi
 
