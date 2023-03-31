@@ -101,8 +101,12 @@
    if [ "$1" == "-u" ]; then
       TE_ARGS="$1 $TE_TAG"
       USB=`bash $REPO/util/bin/te.bash -d`
-      ec -y tio $USB
-      tio $USB
+      if [ "$USB" == "" ]; then
+         ec -r 'no USB device detected'
+      else
+         ec -y tio $USB
+         tio $USB
+      fi
    fi
 
 #===============================================================================
