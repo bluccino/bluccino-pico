@@ -20,22 +20,22 @@ static inline int *_pi_verbose_(void)
 
 //==============================================================================
 // variable arg list based formatted logging with log level
-// - usage: pi_vlog(lvl,"here we go",ap); // log text if lvl <= verbose level
-//          err = pi_vlog(0,NULL,ap);     // get ready state of console
-//          ready = !pi_vlog(0,NULL,ap);  // is console ready
+// - usage: pi_vlog('#',lvl,"here we go",ap); // log text if lvl <= verbose lvl.
+//          err = pi_vlog('#',0,NULL,ap);     // get ready state of console
+//          ready = !pi_vlog('#',0,NULL,ap);  // is console ready
 // - return value:
 //   1) err = pi_vlog(0,NULL,ap)  // err=0 no error/ready, err:non-zero err code
 //   2) else: err=0 if log performed, err=1 if log suppressed
 //==============================================================================
 
-static inline int pi_vlog(int lvl,PI_txt fmt,va_list ap)
+static inline int pi_vlog(char tag,int lvl,PI_txt fmt,va_list ap)
 {
   if (!fmt)
     return pi_console(false); // return err if not ready
   else if (lvl <= *_pi_verbose_()) {
     int h,min,s,ms,us;
     pi_now(&h,&min,&s,&ms,&us);
-    pi_print("#%d[%d:%02d:%02d:%03d.%03d] ",lvl,h,min,s,ms,us);
+    pi_print("%c%d[%d:%02d:%02d:%03d.%03d] ",tag,lvl,h,min,s,ms,us);
     for (int i=0;i < lvl;i++) pi_print("  ");
     if (*fmt) {
       pi_vprint(fmt,ap);
@@ -56,7 +56,7 @@ static inline int pi_vlog(int lvl,PI_txt fmt,va_list ap)
 static inline int pi_log(int lvl,PI_txt fmt,...)
 {
   va_list ap;  int err;
-  va_start(ap,fmt); err = pi_vlog(lvl,fmt, ap); va_end(ap);
+  va_start(ap,fmt); err = pi_vlog('#',lvl,fmt, ap); va_end(ap);
   return err;
 }
 
