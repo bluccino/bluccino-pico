@@ -25,7 +25,7 @@ extern "C" {
     void (*now)(int*h,int*min,int*s,int*ms,int*us);
     int (*console)(bool wait);
     void (*vprint)(PI_txt fmt, va_list ap);
-    int (*vlog)(int lvl,PI_txt fmt, va_list ap);
+    int (*vlog)(char tag,int lvl,PI_txt fmt, va_list ap);
   } PI_api;  // pico API
 
   static inline PI_api* _pi_api_(void)
