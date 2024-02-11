@@ -1,7 +1,7 @@
 // main.c - 02-log
 #include "pico/api.h"
 
-int main(void)
+void main(void)
 {
   PI_us time = 0;
   PI_txt color[] = {PI_G,PI_M,PI_Y,PI_C,""};
