@@ -1,7 +1,7 @@
 // main.c - 03-blink
 #include "pico/api.h"
 
-int main(void)
+void main(void)
 {
   pico.hello(4,"");
   pico.led(2,-1); pico.led(3,-1);
