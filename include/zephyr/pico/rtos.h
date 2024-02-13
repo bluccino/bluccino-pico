@@ -9,16 +9,16 @@
 
   // ANSI color codes
 
-#define PI_R     "\x1b[31m"        // red
-#define PI_G     "\x1b[32m"        // green
-#define PI_Y     "\x1b[33m"        // yellow
-#define PI_B     "\x1b[34m"        // blue
-#define PI_M     "\x1b[35m"        // magenta
-#define PI_C     "\x1b[36m"        // cyan
-#define PI_0     "\x1b[0m"         // neutral
+#define _R_     "\x1b[31m"        // red
+#define _G_     "\x1b[32m"        // green
+#define _Y_     "\x1b[33m"        // yellow
+#define _B_     "\x1b[34m"        // blue
+#define _M_     "\x1b[35m"        // magenta
+#define _C_     "\x1b[36m"        // cyan
+#define _0_     "\x1b[0m"         // neutral
 
   // low power sleeping
- 
+
 #define _rtos_sleep_us_(us)  k_usleep((int32_t)us)
 
   // Zephyr RTOS us clock time

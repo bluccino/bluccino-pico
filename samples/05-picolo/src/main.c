@@ -2,7 +2,7 @@
 #include "pico/api.h"
 
 static PI_txt txt[] = {"red","green","blue"};
-static PI_txt col[] = {PI_R, PI_G, PI_B};
+static PI_txt col[] = {_R_, _G_, _B_};
 static int index[]  = {0,1, 1,2, 2,0, 0,1,2};
 static int mode = 3;
 

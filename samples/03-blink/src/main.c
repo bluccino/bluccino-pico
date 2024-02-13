@@ -7,7 +7,7 @@ void main(void)
   pico.led(2,-1); pico.led(3,-1);
 
 	for (bool on=1; ; on=!on, pico.sleep(500*1000)) {
-    pico.log(1,"%sLED flip",on?PI_G:PI_M);
+    pico.log(1,"%sLED flip",on?_G_:_M_);
     pico.led(-1,-1);
   }
 }
