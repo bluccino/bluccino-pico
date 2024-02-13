@@ -39,7 +39,7 @@ static inline int pi_vlog(char tag,int lvl,PI_txt fmt,va_list ap)
     for (int i=0;i < lvl;i++) pi_print("  ");
     if (*fmt) {
       pi_vprint(fmt,ap);
-      pi_print("\n" PI_0);
+      pi_print("\n" _0_);
     }
     return 0; // log OK
   }
@@ -75,10 +75,10 @@ static inline int pi_hello(int lvl,PI_txt txt)
   if (lvl >= 0) *_pi_verbose_() = lvl;  // set verbose level
   if (txt) {
   	#if defined(PROJECT)  && defined(CONFIG_BOARD)
-    	pi_log(0,PI_R PROJECT" - %s (board %s, pico %s)" PI_0,
+    	pi_log(0,_R_ PROJECT" - %s (board %s, pico %s)" _0_,
            		txt, CONFIG_BOARD,PI_VERSION);
   	#else
-			pi_log(1,PI_R "%s (pico %s)" PI_0, txt,PI_VERSION);
+			pi_log(1,_R_ "%s (pico %s)" _0_, txt,PI_VERSION);
 		#endif
   }
   return old;

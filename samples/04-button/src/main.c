@@ -3,7 +3,7 @@
 
 static void clicked(int i, int on)
 {
-  pico.log(1,"%sclick: @%d,%d", on?PI_G:PI_M,i,on);
+  pico.log(1,"%sclick: @%d,%d", on?_G_:_M_,i,on);
   if (on) pico.led(i,-1);  // toggle LED @i
 }
 

@@ -64,10 +64,20 @@ static inline void pi_button(void (*cb)(int i,int on))
   _pi_button_ptr_(0,cb);
 }
 
+//==============================================================================
+// poll button status (no pre-initialization of button required)
+// - usage: pressed = pi_poll(i)  // poll status of butto @i (i = 1..4)
+//          any = pi_poll(-1)     // poll if any button is pressed
+//==============================================================================
+
 static inline int pi_poll(int i)
 {
-  PI_button *p = _pi_button_ptr_(i,NULL);
-  return p ? gpio_pin_get_dt(&p->ds) : -1;
+  bool pressed = 0;
+  for (int k=(i<0 ? 1:i); k<=(i<0 ? 4:i); k++) {
+    PI_button *p = _pi_button_ptr_(k,NULL);
+    pressed = pressed || (p ? gpio_pin_get_dt(&p->ds) : 0);
+  }
+  return pressed;
 }
 
 #endif // __PICO_BUTTON_H__
