@@ -17,7 +17,7 @@ static inline PI_us pi_us(void) // get current us-clock time
   PI_us us = _rtos_us_clock_();
   PI_us offset = *_pi_us_offset_();
   if (!offset) offset = pi_clock((PI_us)0);
-  return us  - offset;  // return us clock time
+  return us - offset;  // return us clock time
 }
 
 static inline void pi_now

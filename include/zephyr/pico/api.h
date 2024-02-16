@@ -22,7 +22,7 @@ extern "C" {
     int (*poll)(int i);
 
     PI_us (*clock)(PI_us us);
-    void (*now)(int*h,int*min,int*s,int*ms,int*us);
+    void (*now)(int *ph, int *pmin, int *psec, int *pms, int *pus);
     int (*console)(bool wait);
     void (*vprint)(PI_txt fmt, va_list ap);
     int (*vlog)(char tag,int lvl,PI_txt fmt, va_list ap);

@@ -31,7 +31,7 @@ static inline PI_led *_pi_led_ptr_(int i) // helper
 	for (; n < sizeof(ds)/sizeof(ds[0]); n++) {
 	  if (!device_is_ready(ds[n].port)) {
 	    printk("error %d: LED device not ready\n",ENODEV);
-      continue;
+            continue;
 	  }
 	  gpio_pin_configure_dt(ds+n, GPIO_OUTPUT_INACTIVE);
 	}
@@ -40,10 +40,11 @@ static inline PI_led *_pi_led_ptr_(int i) // helper
 
 static inline int pi_led(int i, int val)
 {
-  int n=0; PI_led *p = _pi_led_ptr_(i);
+  int n=0; 
+  PI_led *p = _pi_led_ptr_(i);
   if (i < 0) { // apply val to all LEDs
     for (int k=1; k<=4; k++) n += !pi_led(k,val);
-    return n==0 ? -2 : 0;
+      return n==0 ? -2 : 0;
   }
   else if (val < 0)  // led(i,-1) toggles LED @i
     { if (p) gpio_pin_toggle_dt(p); }

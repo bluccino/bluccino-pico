@@ -17,6 +17,10 @@ typedef struct {
   void (*cb)(int i, int on);    // application callback
 } PI_button;
 
+//==============================================================================
+// button ISR - invoking registered user callback
+//==============================================================================
+
 static inline void _button_isr_(const struct device *dev,
   struct gpio_callback *ctx, uint32_t pins)
 {
@@ -24,6 +28,12 @@ static inline void _button_isr_(const struct device *dev,
   int on = gpio_pin_get_dt(&p->ds);
   if (p->cb) p->cb(p->ix,on);
 }
+
+//==============================================================================
+// auto init button control (if not yet done) & return pointer to button struct
+// - usage: p = _pi_button_ptr_(i,cb);   // auto init with callback & return ptr
+//          p = _pi_button_ptr_(i,NULL); // auto init w/o callback & return ptr
+//==============================================================================
 
 static inline PI_button *
   _pi_button_ptr_(int i,void (*cb)(int i,int on))
@@ -50,7 +60,8 @@ static inline PI_button *
       printk("error %d: BUTTON device not ready\n",-ENODEV);
       continue;
     }
-    p->cb = cb;  // store application callback
+    if (cb)
+      p->cb = cb;  // store application callback
     gpio_pin_configure_dt(&p->ds,GPIO_INPUT);
     gpio_pin_interrupt_configure_dt(&p->ds,GPIO_INT_EDGE_BOTH);
     gpio_init_callback(&p->context, _button_isr_, BIT(p->ds.pin));
@@ -58,6 +69,11 @@ static inline PI_button *
 	}
   return (i<1 || i>n) ? NULL : but + (i-1);
 }
+
+//==============================================================================
+// init buttons and set button gpio_callback (if callback is not NULL)
+// - usage: pi_button(cb) // set common button callback for any button
+//==============================================================================
 
 static inline void pi_button(void (*cb)(int i,int on))
 {

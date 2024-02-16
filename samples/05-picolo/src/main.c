@@ -20,21 +20,35 @@ static void pressed(int i, int on)
     else if (on) mode = (i-2) % 4;
 }
 
-void main(void)
+int main(void)
 {
+//>>>>>>>>>>>>>>>>>>>
+/*
+//<<<<<<<<<<<<<<<<<<<
   for(;pico.log(0,NULL);pico.sleep(250*1000))
     pico.led(1,-1); // blink until console ready
+//>>>>>>>>>>>>>>>>>>>
+*/
+  int busy = pico.log(0,NULL);
+  for(int k=0; busy && k <= 30; k++) {
+    pico.print("busy: %d\n",busy);
+    pico.led(1,-1); // blink until console ready
+
+    pico.sleep(250*1000);
+    busy = pico.log(0,NULL);
+  }
+//<<<<<<<<<<<<<<
 
   pico.hello(4,""); // verbose level, hello msg
   pico.button(pressed); // init/setup button cb
 
   PI_us time = 0;
-	for (int i=0;; i++, time += 500*1000)
-  {
+	for (int i=0;; i++, time += 500*1000) {
     pico.sleep(time-pico.us());
     int k = index[2*mode + i % (mode==3?3:2)];
     pico.log(1,"%s%s",col[k],txt[k]);
     pico.led(-1,0);    // all LEDs off
     pico.led(2+k,1);   // one LED on
   }
+  return 0;
 }

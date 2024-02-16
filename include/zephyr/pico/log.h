@@ -14,7 +14,7 @@
 
 static inline int *_pi_verbose_(void)
 {
-  static int verbose = 0;
+  static int verbose = 1;  // initial verbose level = 1
   return &verbose;
 }
 
@@ -22,7 +22,7 @@ static inline int *_pi_verbose_(void)
 // variable arg list based formatted logging with log level
 // - usage: pi_vlog('#',lvl,"here we go",ap); // log text if lvl <= verbose lvl.
 //          err = pi_vlog('#',0,NULL,ap);     // get ready state of console
-//          ready = !pi_vlog('#',0,NULL,ap);  // is console ready
+//          ready = !pi_vlog('#',0,NULL,ap);  // is console ready?
 // - return value:
 //   1) err = pi_vlog(0,NULL,ap)  // err=0 no error/ready, err:non-zero err code
 //   2) else: err=0 if log performed, err=1 if log suppressed
@@ -31,7 +31,7 @@ static inline int *_pi_verbose_(void)
 static inline int pi_vlog(char tag,int lvl,PI_txt fmt,va_list ap)
 {
   if (!fmt)
-    return pi_console(false); // return err if not ready
+    return pi_console(false); // set non-block-console & return err if not ready
   else if (lvl <= *_pi_verbose_()) {
     int h,min,s,ms,us;
     pi_now(&h,&min,&s,&ms,&us);
@@ -74,7 +74,7 @@ static inline int pi_hello(int lvl,PI_txt txt)
   int old = *_pi_verbose_();
   if (lvl >= 0) *_pi_verbose_() = lvl;  // set verbose level
   if (txt) {
-  	#if defined(PROJECT)  && defined(CONFIG_BOARD)
+  	#if defined(PROJECT) && defined(CONFIG_BOARD)
     	pi_log(0,_R_ PROJECT" - %s (board %s, pico %s)" _0_,
            		txt, CONFIG_BOARD,PI_VERSION);
   	#else
