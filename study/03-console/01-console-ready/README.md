@@ -2,13 +2,11 @@
 
 ## Description
 
-* The sample starts with an initial flashing of the status LED and continues
-  this mode by waiting for console readiness. Once the console is ready (by
-  successfully connecting a terminal program to the USB interface) the app
-  continues with an RGB blink sequence.
-
-* During waiting for console readiness the app flashes the stus LED and uses
-  pico.print() to inform about the return valus from pico.console() function.
+* The app starts with an initial flashing of the status LED and continues
+  this mode by waiting for console readiness and logging the return codes
+  of function pico.console(). Once the console is ready (by successfully
+  connecting a terminal program to the USB interface) the app logs the
+  recorded return codes and continues with an RGB blink sequence.
 
 * If console readiness cannot be detected for some reason, the user has the
   possibility to terminate the initial waiting loop with a button press.
