@@ -29,7 +29,10 @@ static inline void _vprint_init_(PI_txt fmt, va_list ap);
         DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
 
     if (!device_is_ready(dev)) return -ENODEV;           // err code -19
-    if (dtr == 0xff && usb_enable(NULL)) return -EBUSY;  // err code -16
+    if (dtr == 0xff) { // for the very first time
+      int err = usb_enable(NULL);
+      if (err && err != -EALREADY) return err;  // usb_enable() with error
+    }
 
     for (dtr=0; dtr == 0; k_msleep(250)) {
       uart_line_ctrl_get(dev, UART_LINE_CTRL_DTR, &dtr); // get console status

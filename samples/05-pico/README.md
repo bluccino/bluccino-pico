@@ -1,8 +1,8 @@
-# Sample 05-picolo
+# Sample 05-pico
 
 ## Description
 
-* The Picolo sample (`05-picolo`) uses all eight (main) functions of the Pico-API
+* The Picolo sample (`05-pico`) uses all eight ^(main) functions of the Pico-API
 
 * When the app waits for a terminal connection it flashes the status LED
   (mono-color LED on dongle, or LED 1 on a DK) to indicate that the program
@@ -10,7 +10,7 @@
 
 * Once the terminal is connected, the log time is resetted, a hello message with
   zero time stamp will be logged to the console, showing the project name
-  (`05-picolo`), the board identifier and the Poico-API version number.
+  (`05-pico`), the board identifier and the Poico-API version number.
 
 * After the hello-message has been logged the following LED
   blink pattern is executed:
@@ -92,7 +92,7 @@ have to be created and located in the `./boards` folder.
   printing of all button states
 
 ```
-   #0[0:00:00:000.000] 05-picolo -  (board nrf52840dongle_nrf52840, pico v0.1.0)
+   #0[0:00:00:000.000] 05-pico -  (board nrf52840dongle_nrf52840, pico v0.1.2)
    #1[0:00:00:014.282]   red
    #1[0:00:00:500.091]   green
    #1[0:00:01:000.091]   blue
@@ -113,7 +113,7 @@ have to be created and located in the `./boards` folder.
 ## The Sample Code
 
 ```
-   // main.c - 05-picolo
+   // main.c - 05-pico
    #include "pico/api.h"
 
    static PI_txt txt[] = {"red","green","blue"};

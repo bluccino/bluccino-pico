@@ -6,20 +6,28 @@ static PI_txt col[] = {_R_, _G_, _B_};
 
 int main(void)
 {
-  int err = pico.console(0);           // get console status (no wait)
+  int tab[20];
+  int cnt = 0;
 
+  int err = pico.console(0);           // get console status (no wait)
   for(int i=0; err; i++) {
-    pico.print("%03d: console status: err = %d\n",i,err);
-    if (i % 10 == 0)
-       pico.print(_C_"you may terminate waiting by pressing any button\n"_0_);
+    if (cnt < sizeof(tab)/sizeof(tab[0]))
+       tab[cnt++] = err;
 
     pico.led(1,-1);                    // blink until console ready
-    if (pico.poll(-1)) break;            // any butto press terminates waiting
+    if (pico.poll(-1)) break;          // any butto press terminates waiting
+
     pico.sleep(250*1000);              // sleep 250ms
-    err = pico.console(0);         // get console status (no wait)
+
+    err = pico.console(0);             // get console status (no wait)
   }
 
   pico.hello(4,""); // verbose level, hello msg
+  pico.log(1,"");
+  pico.print("return codes of pico.console():");
+  for (int i=0; i < cnt; i++)
+     pico.print(" %d",tab[i]);
+  pico.print("\n");
 
   PI_us time = 0;
 	for (int i=0;; i++, time += 500*1000) {

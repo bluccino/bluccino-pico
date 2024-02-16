@@ -1,4 +1,4 @@
-// main.c - 05-picolo
+// main.c - 05-pico
 #include "pico/api.h"
 
 static PI_txt txt[] = {"red","green","blue"};
@@ -22,22 +22,8 @@ static void pressed(int i, int on)
 
 int main(void)
 {
-//>>>>>>>>>>>>>>>>>>>
-/*
-//<<<<<<<<<<<<<<<<<<<
   for(;pico.log(0,NULL);pico.sleep(250*1000))
     pico.led(1,-1); // blink until console ready
-//>>>>>>>>>>>>>>>>>>>
-*/
-  int busy = pico.log(0,NULL);
-  for(int k=0; busy && k <= 30; k++) {
-    pico.print("busy: %d\n",busy);
-    pico.led(1,-1); // blink until console ready
-
-    pico.sleep(250*1000);
-    busy = pico.log(0,NULL);
-  }
-//<<<<<<<<<<<<<<
 
   pico.hello(4,""); // verbose level, hello msg
   pico.button(pressed); // init/setup button cb
