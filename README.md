@@ -119,5 +119,5 @@ which are for internal use and of of minor importance at the application level.
 # Releases
 
 ```
-   v0.1.0    07-Mar-2023 First Release
+   v0.1.2   17-Feb-2023 Improved Release  (built with Zephyr 3.6.0 or NCS 2.5.2)
 ```
