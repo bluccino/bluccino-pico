@@ -22,7 +22,7 @@ static void pressed(int i, int on)
 
 int main(void)
 {
-  for(;pico.log(0,NULL);pico.sleep(250*1000))
+  for(;pico.console(0) && !pico.poll(-1); pico.sleep(250000))
     pico.led(1,-1); // blink until console ready
 
   pico.hello(4,""); // verbose level, hello msg

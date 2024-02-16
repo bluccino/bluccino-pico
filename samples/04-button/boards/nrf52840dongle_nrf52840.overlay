@@ -2,13 +2,14 @@
 
 / {
 	  chosen {
-		  zephyr,console = &cdc_acm_uart0;
+		  zephyr,console = &cdc_acm_uart;
 	  };
   };
 
-  &zephyr_udc0 {
-	  cdc_acm_uart0: cdc_acm_uart0 {
-		  compatible = "zephyr,cdc-acm-uart";
-		  label = "CDC_ACM_0";
+    &zephyr_udc0 {
+	        cdc_acm_uart0: cdc_acm_uart0 {
+	    	  compatible = "zephyr,cdc-acm-uart";
+	  	    label = "CDC_ACM_0";
+			    status = "disabled";
 	  };
   };
