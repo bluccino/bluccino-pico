@@ -1,4 +1,4 @@
-# Sample 01-console-ready
+# Sample 01-console-study
 
 ## Description
 
@@ -11,6 +11,8 @@
 * If console readiness cannot be detected for some reason, the user has the
   possibility to terminate the initial waiting loop with a button press.
 
+* note that in this startup mode none of the functions `pico.console`,
+  `pico.hello`, `pico.print` or `pico.log` will block.
 
 ## Supported Boards
 
