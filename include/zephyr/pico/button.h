@@ -53,7 +53,9 @@ static inline PI_button *
     #endif
   };
 
-  static int n = 0; // number of initialized LEDs
+  static int n = 0;  // number of initialized LEDs
+  if (cb) n = 0;     // re-init if callback provided
+
 	for (; n < sizeof(but)/sizeof(but[0]); n++) {
     PI_button *p = but + n;
     if (!device_is_ready(p->ds.port)) {
