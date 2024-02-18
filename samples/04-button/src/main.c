@@ -10,6 +10,7 @@ static void clicked(int i, int on)
 int main(void)
 {
   pico.hello(4,"click any button");
-  pico.button(clicked);  // init buttons and setup callback
+  int n = pico.button(clicked);  // init buttons and setup callback
+  pico.log(1,"supported buttons: %d",n);
   return 0;
 }

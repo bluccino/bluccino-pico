@@ -74,12 +74,15 @@ static inline PI_button *
 
 //==============================================================================
 // init buttons and set button gpio_callback (if callback is not NULL)
-// - usage: pi_button(cb) // set common button callback for any button
+// - usage: n = pi_button(cb) // register button callback, return nmb of buttons
 //==============================================================================
 
-static inline void pi_button(void (*cb)(int i,int on))
+static inline int pi_button(void (*cb)(int i,int on))
 {
-  _pi_button_ptr_(0,cb);
+  int n = 0;
+  for (int err=0; !err;)
+     err = _pi_button_ptr_(++n,cb) == 0;
+  return n-1;
 }
 
 //==============================================================================
