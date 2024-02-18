@@ -38,18 +38,25 @@ static inline PI_led *_pi_led_ptr_(int i) // helper
   return (i<0 || i>n) ? NULL : ds + (i>0?i-1:0);
 }
 
+//==============================================================================
+// set one or all LEDs on/off or toggle one or all LEDs
+// - usage: err = led(i,on);  // on=1/0: set LED @i on/off, on=-1: toggle LED @i
+//          n = led(-1,on);   // on/off/toggle all LEDs, return number
+//==============================================================================
+
 static inline int pi_led(int i, int val)
 {
-  int n=0; 
   PI_led *p = _pi_led_ptr_(i);
   if (i < 0) { // apply val to all LEDs
-    for (int k=1; k<=4; k++) n += !pi_led(k,val);
-      return n==0 ? -2 : 0;
+    for (int err=0, n=0; !err;) {
+      err = pi_led(++n,val);
+      if (err) return n==1 ? -2 : n-1;
+    }
   }
   else if (val < 0)  // led(i,-1) toggles LED @i
     { if (p) gpio_pin_toggle_dt(p); }
   else  // led(i,0) or led(i,1) clears/sets LED @i
     { if (p) gpio_pin_set_dt(p,val); }
-  return (p == 0) ? -1 : 0;
+  return (!p) ? -1 : 0;
 }
 #endif // __PICO_LED_H__

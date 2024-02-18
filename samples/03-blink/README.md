@@ -2,13 +2,15 @@
 
 ## Description
 
-* sample application to demonstrate cntrol of a GPIO pin on very deep level
-* control is implemented by utilizing `GPIO` driver API
-* parameters for gpio pin control are retrieved from devicetree
-* the sample needs to provide an overlay file for each support to contribute
-  to the specific DTS
+* sample application to demonstrate LED control
+* demonstration of setting LEDs on/off or LED toggling
+* demonstration of how to examine the number of suppoerted LEDs
+* parameters for LED gpio pin control are retrieved from devicetree
+* the sample needs to provide an overlay file for each supported board to
+  contribute to the specific device tree source DTS
 * in addition a binding (file: ./dts/bindings/blinker-parameters.yaml) has to be
-  provided for a devicetree node with compatibility "blinker-parameters"
+  provided for a devicetree node with compatibility "blinker-parameters". This
+  is done in the Zephyr RTOS kernel
 
 
 ## Supported Boards
@@ -23,55 +25,71 @@ The sample has support for the following boards:
 
 ## The Sample Code
 
-### Mini LED API
 ```
-   // led.h - mini LED API
-   #ifndef __LED_H__
-   #define __LED_H__
+// main.c - 03-blink
+#include "pico/pico.c"
 
-   #include <zephyr/kernel.h>
-   #include <zephyr/drivers/gpio.h>
+int main(void)
+{
+  pico.hello(4,"");
+  int n = pico.led(-1,0);  // all LEDs off
+  pico.log(1,"supported LEDs: %d",n);
 
-   #define LED  DT_NODELABEL(led0)
-   typedef const struct gpio_dt_spec led_t; // shorthand
-
-   static inline led_t *led_init(void)
-   {
-     static led_t ds = GPIO_DT_SPEC_GET(LED, gpios);
-
-     if (!device_is_ready(ds.port)) {
-       printk("error %d: LED device not ready\n",ENODEV);
-       return NULL;
-     }
-
-     gpio_pin_configure_dt(&ds, GPIO_OUTPUT_ACTIVE);
-     return &ds;
-   }
-
-   static inline void led_toggle(led_t *led)
-   {
-     gpio_pin_toggle_dt(led);
-   }
-
-   #endif // __LED_H__
+  pico.led(2,1); pico.led(3,-1); pico.led(4,0);
+	for (bool on=1; ; on=!on, pico.sleep(500*1000)) {
+    pico.log(1,"%sLED flip",on?_G_:_M_);
+    pico.led(-1,-1);
+  }
+  return 0;
+}
 ```
 
-### Main Program
+By including "pico/pico.h" the app utilizes the pico standard api. It requires
+to link the implementation file pico/pico.c.
+
+The first line in `main()` sets the maximum log level (4) and prints a hello
+message with simultaneous resetting of the clock time. Since the second argument
+(a specific hello message) is empty, the app logs the standard hello message,
 
 ```
-   // main.c - 03-blinker
-   #include "led0.h"
+   #0[0:00:00:000.000] 03-blink -  (board nrf52dk_nrf52832, pico v0.1.2)
+```  
 
-   void main(void)
-   {
-     printk("03-blinker (board %s)\n",CONFIG_BOARD);
-     led_t *led = led_init();
+showing sample name (`03-blink`), board indentifier (in the specific case
+`nrf52dk_nrf52832`) and Pico version (here `v0.1.2`).
 
-	  for (;led;k_msleep(500))
-  	    led_toggle(led);
-   }
+The second line `int n = pico.led(-1,0);` is used to examine the number of
+supporeted LEDs, which is printed in the following log line.
+
+It follows a demonstration of how to use function `pico.led()` to turn a single
+LED on/off or to toggle it. It is implicitely assumed that a standard number of
+4 LEDs are supported, which are all turned off previously. For the blink appli-
+cation we will start with two dark LEDs (@1, @4) and two bright LEDs (@2, @3),
+which will then subsequently toggled in an endless loop incorporating a loop
+delay of 500ms. For a 2x2 matrix arrangement of the 4 LEDs this creates a
+'diagonal flip effect'.
+
+LED @1 is already initialized as off, so we leave it as it is. LED @2 has to be
+turned on, for which we use `pico.led(2,-1);`. LED @3 needs also to be turned on,
+and this time we use the toggle operation `pico.led(3,-1);` for demonstartion.
+Finally, for demonstration, we turn LED @4 explicitely off with `pico.led(4,0);`,
+even we know this operation is redundant (since LED @4 was already off).
+
+What is left is the blink loop, where a sleep of 500 ms (`pico.sleep(500*1000)`)
+is performed between each iteration. The call `pico.led(-1,-1);` in the loop
+body is used to toggle all supported LEDs.     
+
+Notably only one single API `pico.led()` function is needed to perform a variety
+of different operations, which are summarized below:
+
 ```
-
+    int n = pico.led(-1,0);  // all LEDs off,    return number of supported LEDs
+    int n = pico.led(-1,1);  // all LEDs on,     return number of supported LEDs
+    int n = pico.led(-1,-1); // all LEDs toggle, return number of supported LEDs
+    pico.led(i,0)            // turn LED @i off
+    pico.led(i,1)            // turn LED @i on
+    pico.led(i,-1)           // toggle LED @i
+```
 
 
 ## Hardware Access
