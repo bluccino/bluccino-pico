@@ -11,7 +11,7 @@ extern "C" {
   #include "pico/led.h"
   #include "pico/log.h"
 
-  typedef struct PI_api {
+  typedef struct pi_api {
     void (*print)(pi_txt fmt,...);
     void (*sleep)(pi_us ms);
     pi_us (*us)(void);
@@ -26,7 +26,7 @@ extern "C" {
     int (*console)(bool wait);
     void (*vprint)(pi_txt fmt, va_list ap);
     int (*vlog)(char tag,int lvl,pi_txt fmt, va_list ap);
-  } PI_api;  // pico API
+  } pi_api;  // pico API
 
   #define PI_API() {             \
             .print=pi_print,     \
@@ -44,9 +44,9 @@ extern "C" {
             .vlog=pi_vlog,       \
           }
 
-  static inline PI_api* _pi_api_(void)
+  static inline pi_api* _pi_api_(void)
   {
-    static PI_api pico = PI_API();
+    static pi_api pico = PI_API();
     return &pico;
   }
 
