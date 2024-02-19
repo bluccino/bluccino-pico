@@ -19,7 +19,7 @@ int cnt = 0;
 
 static void console(void)
 {
-  int err = pico.console(0);           // get console status (no wait)
+  int err = pico.log(0,NULL);          // get console status (no wait)
   for(int i=0; err; i++) {
     if (cnt < sizeof(tab)/sizeof(tab[0]))
        tab[cnt++] = err;
@@ -28,7 +28,7 @@ static void console(void)
     if (pico.poll(-1)) break;          // any butto press terminates waiting
 
     pico.sleep(250*1000);              // sleep 250ms
-    err = pico.console(0);             // get console status (no wait)
+    err = pico.log(0,NULL);            // get console status (no wait)
   }
 }
 
@@ -51,10 +51,10 @@ static void show(void)
 
 static void blink(void)
 {
-  static pi_txt txt[] = {"red","green","blue"};
-  static pi_txt col[] = {_R_, _G_, _B_};
+  static pico_txt txt[] = {"red","green","blue"};
+  static pico_txt col[] = {_R_, _G_, _B_};
 
-  pi_us time = 0;
+  pico_us time = 0;
 	for (int i=0;; i++, time += 500*1000) {
     pico.sleep(time-pico.usec());
     int k = i % 3;

@@ -3,25 +3,25 @@
 #define __PICO_LED_H__
 
 #include "pico/rtos.h"
-#define PI_LED0  DT_ALIAS(led0)
-#define PI_LED1  DT_ALIAS(led1)
-#define PI_LED2  DT_ALIAS(led2)
-#define PI_LED3  DT_ALIAS(led3)
+#define PICO_LED0  DT_ALIAS(led0)
+#define PICO_LED1  DT_ALIAS(led1)
+#define PICO_LED2  DT_ALIAS(led2)
+#define PICO_LED3  DT_ALIAS(led3)
 
-static inline struct gpio_dt_spec *_pi_led_ptr_(int i) // helper
+static inline struct gpio_dt_spec *_pico_led_ptr_(int i) // helper
 {
   static struct gpio_dt_spec ds[] = {
-    #if DT_NODE_HAS_STATUS(PI_LED0, okay)
-      GPIO_DT_SPEC_GET(PI_LED0, gpios),
+    #if DT_NODE_HAS_STATUS(PICO_LED0, okay)
+      GPIO_DT_SPEC_GET(PICO_LED0, gpios),
     #endif
-    #if DT_NODE_HAS_STATUS(PI_LED1, okay)
-      GPIO_DT_SPEC_GET(PI_LED1, gpios),
+    #if DT_NODE_HAS_STATUS(PICO_LED1, okay)
+      GPIO_DT_SPEC_GET(PICO_LED1, gpios),
     #endif
-    #if DT_NODE_HAS_STATUS(PI_LED2, okay)
-      GPIO_DT_SPEC_GET(PI_LED2, gpios),
+    #if DT_NODE_HAS_STATUS(PICO_LED2, okay)
+      GPIO_DT_SPEC_GET(PICO_LED2, gpios),
     #endif
-    #if DT_NODE_HAS_STATUS(PI_LED3, okay)
-      GPIO_DT_SPEC_GET(PI_LED3, gpios),
+    #if DT_NODE_HAS_STATUS(PICO_LED3, okay)
+      GPIO_DT_SPEC_GET(PICO_LED3, gpios),
     #endif
   };
 
@@ -42,12 +42,12 @@ static inline struct gpio_dt_spec *_pi_led_ptr_(int i) // helper
 //          n = led(-1,on);   // on/off/toggle all LEDs, return number
 //==============================================================================
 
-static inline int pi_led(int i, int val)
+static inline int pico_led(int i, int val)
 {
-  struct gpio_dt_spec *p = _pi_led_ptr_(i);
+  struct gpio_dt_spec *p = _pico_led_ptr_(i);
   if (i < 0) { // apply val to all LEDs
     for (int err=0, n=0; !err;) {
-      err = pi_led(++n,val);
+      err = pico_led(++n,val);
       if (err) return n==1 ? -2 : n-1;
     }
   }

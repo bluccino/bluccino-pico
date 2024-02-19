@@ -6,9 +6,9 @@
 extern "C" {
 #endif
 
-typedef int64_t pi_us;            // micro seconds
-typedef int64_t pi_ms;            // mili seconds
-typedef const char *pi_txt;       // pointer to text
+typedef int64_t pico_us;          // micro seconds
+typedef int64_t pico_ms;          // mili seconds
+typedef const char *pico_txt;     // pointer to text
 
 #ifdef __cplusplus
 }

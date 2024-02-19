@@ -2,4 +2,4 @@
 
 #include "pico/pico.h"
 
-pi_api pico = PI_API();  // declaration of pico API
+pico_api pico = PICO_API();  // declaration of pico API

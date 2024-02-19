@@ -11,46 +11,46 @@ extern "C" {
   #include "pico/led.h"
   #include "pico/log.h"
 
-  typedef struct pi_api {
-    void (*print)(pi_txt fmt,...);
-    void (*sleep)(pi_us ms);
-    pi_us (*usec)(void);
-    int (*log)(int lvl,pi_txt fmt,...);
-    int (*hello)(int lvl,pi_txt txt);
+  typedef struct pico_api {
+    void (*print)(pico_txt fmt,...);
+    void (*sleep)(pico_us ms);
+    pico_us (*usec)(void);
+    int (*log)(int lvl,pico_txt fmt,...);
+    int (*hello)(int lvl,pico_txt txt);
     int (*led)(int i,int val);
     int (*button)(void(*cb)(int i,int on));
     int (*poll)(int i);
 
-    pi_us (*preset)(pi_us us);
-    void (*now)(int *ph, int *pmin, int *psec, int *pms, int *pus);
-    int (*console)(bool wait);
-    void (*vprint)(pi_txt fmt, va_list ap);
-    int (*vlog)(char tag,int lvl,pi_txt fmt, va_list ap);
-  } pi_api;  // pico API
+    pico_us (*_preset)(pico_us us);
+    void (*_now)(int *ph, int *pmin, int *psec, int *pms, int *pus);
+    int (*_console)(bool wait);
+    void (*_vprint)(pico_txt fmt, va_list ap);
+    int (*_vlog)(char tag,int lvl,pico_txt fmt, va_list ap);
+  } pico_api;  // pico API
 
-  #define PI_API() {             \
-            .print=pi_print,     \
-            .sleep=pi_sleep,     \
-            .usec=pi_usec,       \
-            .log=pi_log,         \
-            .hello=pi_hello,     \
-            .led=pi_led,         \
-            .button=pi_button,   \
-            .poll=pi_poll,       \
-            .preset=pi_preset,   \
-            .now=pi_now,         \
-            .console=pi_console, \
-            .vprint=pi_vprint,   \
-            .vlog=pi_vlog,       \
+  #define PICO_API() {             \
+            .print=pico_print,     \
+            .sleep=pico_sleep,     \
+            .usec=pico_usec,       \
+            .log=pico_log,         \
+            .hello=pico_hello,     \
+            .led=pico_led,         \
+            .button=pico_button,   \
+            .poll=pico_poll,       \
+            ._preset=pico_preset,   \
+            ._now=pico_now,         \
+            ._console=pico_console, \
+            ._vprint=pico_vprint,   \
+            ._vlog=pico_vlog,       \
           }
 
-  static inline pi_api* _pi_api_(void)
+  static inline pico_api* _pico_apico_(void)
   {
-    static pi_api pico = PI_API();
+    static pico_api pico = PICO_API();
     return &pico;
   }
 
-  #define pico (*_pi_api_())
+  #define pico (*_pico_apico_())
 #ifdef __cplusplus
 }
 #endif

@@ -30,7 +30,7 @@ static inline int64_t _rtos_us_clock_(void)
   return (int64_t)((1000000*cyc)/f);
 }
 
-static inline int64_t*_pi_us_offset_(void)
+static inline int64_t*_rtos_us_offset_(void)
 {
   static int64_t offset = 0;
   return &offset;

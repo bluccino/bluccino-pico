@@ -19,10 +19,10 @@ int cnt = 0;
 
 static void wait_on_demand(void)
 {
-   pico.console(0);    // init console as non-blocking
+   pico.log(0,NULL);  // init console as non-blocking
    if (pico.poll(-1)) {
-     while (pico.poll(-1));
-     for (;pico.console(0) && !pico.poll(-1); pico.sleep(250*1000))
+     while (pico.poll(-1)) pico.led(1,1);
+     for (;pico.log(0,NULL) && !pico.poll(-1); pico.sleep(250*1000))
        pico.led(1,-1);                    // blink until console ready
    }
 }
@@ -46,10 +46,10 @@ static void show(void)
 
 static void blink(void)
 {
-  static pi_txt txt[] = {"red","green","blue"};
-  static pi_txt col[] = {_R_, _G_, _B_};
+  static pico_txt txt[] = {"red","green","blue"};
+  static pico_txt col[] = {_R_, _G_, _B_};
 
-  pi_us time = 0;
+  pico_us time = 0;
 	for (int i=0;; i++, time += 500*1000) {
     pico.sleep(time-pico.usec());
     int k = i % 3;
