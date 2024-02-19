@@ -51,7 +51,7 @@ static void blink(void)
 
   pi_us time = 0;
 	for (int i=0;; i++, time += 500*1000) {
-    pico.sleep(time-pico.us());
+    pico.sleep(time-pico.usec());
     int k = i % 3;
     pico.log(1,"%s%s",col[k],txt[k]);
     pico.led(-1,0);                    // all LEDs off
