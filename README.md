@@ -119,5 +119,8 @@ which are for internal use and of of minor importance at the application level.
 # Releases
 
 ```
-   v0.1.2   17-Feb-2023 Improved Release  (built with Zephyr 3.6.0 or NCS 2.5.2)
+   v0.1.2   17-Feb-2023 Improved Release  
+            (built with Zephyr 3.6.0 or NCS 2.5.2)
+   v0.1.3   19-Feb-2023 lower case types and rename pico.us() to  pico.usec()
+            (built with Zephyr 3.6.0 or NCS 2.5.2)
 ```

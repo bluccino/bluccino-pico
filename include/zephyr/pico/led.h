@@ -8,11 +8,9 @@
 #define PI_LED2  DT_ALIAS(led2)
 #define PI_LED3  DT_ALIAS(led3)
 
-typedef const struct gpio_dt_spec PI_led; // shorthand
-
-static inline PI_led *_pi_led_ptr_(int i) // helper
+static inline struct gpio_dt_spec *_pi_led_ptr_(int i) // helper
 {
-  static PI_led ds[] = {
+  static struct gpio_dt_spec ds[] = {
     #if DT_NODE_HAS_STATUS(PI_LED0, okay)
       GPIO_DT_SPEC_GET(PI_LED0, gpios),
     #endif
@@ -46,7 +44,7 @@ static inline PI_led *_pi_led_ptr_(int i) // helper
 
 static inline int pi_led(int i, int val)
 {
-  PI_led *p = _pi_led_ptr_(i);
+  struct gpio_dt_spec *p = _pi_led_ptr_(i);
   if (i < 0) { // apply val to all LEDs
     for (int err=0, n=0; !err;) {
       err = pi_led(++n,val);

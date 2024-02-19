@@ -28,7 +28,7 @@ static inline int *_pi_verbose_(void)
 //   2) else: err=0 if log performed, err=1 if log suppressed
 //==============================================================================
 
-static inline int pi_vlog(char tag,int lvl,PI_txt fmt,va_list ap)
+static inline int pi_vlog(char tag,int lvl,pi_txt fmt,va_list ap)
 {
   if (!fmt)
     return pi_console(false); // set non-block-console & return err if not ready
@@ -53,7 +53,7 @@ static inline int pi_vlog(char tag,int lvl,PI_txt fmt,va_list ap)
 //          ready = !pi_log(0,NULL);  // is console ready
 //==============================================================================
 
-static inline int pi_log(int lvl,PI_txt fmt,...)
+static inline int pi_log(int lvl,pi_txt fmt,...)
 {
   va_list ap;  int err;
   va_start(ap,fmt); err = pi_vlog('#',lvl,fmt, ap); va_end(ap);
@@ -69,7 +69,7 @@ static inline int pi_log(int lvl,PI_txt fmt,...)
 //          verbose = pi_hello(-1,NULL); // get verbose level, no print
 //==============================================================================
 
-static inline int pi_hello(int lvl,PI_txt txt)
+static inline int pi_hello(int lvl,pi_txt txt)
 {
   int old = *_pi_verbose_();
   if (lvl >= 0) *_pi_verbose_() = lvl;  // set verbose level
