@@ -3,10 +3,10 @@
 #ifndef __PICO_CONSOLE__
 #define __PICO_CONSOLE__
 #include "pico/rtos.h"
+#include "pico/type.h"
 
-typedef const char *PI_txt;
-typedef void (*_PI_vprint_)(PI_txt fmt, va_list ap);
-static inline void _vprint_init_(PI_txt fmt, va_list ap);
+typedef void (*_PI_vprint_)(pi_txt fmt, va_list ap);
+static inline void _vprint_init_(pi_txt fmt, va_list ap);
 
 //==============================================================================
 // PICO console function
@@ -52,9 +52,9 @@ static inline void _vprint_init_(PI_txt fmt, va_list ap);
 //          *_vprint_() = vprintk;  // redirect vprint() to Zephyr vprintk()
 //==============================================================================
 
-//typedef void (*_PI_vprint_)(PI_txt fmt, va_list ap);
-//static inline void pi_print(PI_txt fmt,...);
-//static inline void _vprint_init_(PI_txt fmt, va_list ap);
+//typedef void (*_PI_vprint_)(pi_txt fmt, va_list ap);
+//static inline void pi_print(pi_txt fmt,...);
+//static inline void _vprint_init_(pi_txt fmt, va_list ap);
 
 static inline _PI_vprint_* _vprint_(void)
 {
@@ -68,7 +68,7 @@ static inline _PI_vprint_* _vprint_(void)
 // - to disable waiting for console call pi_console(false) before
 //==============================================================================
 
-static inline void _vprint_init_(PI_txt fmt, va_list ap)
+static inline void _vprint_init_(pi_txt fmt, va_list ap)
 {
   *_vprint_() = vprintk; // use vprintk from now
   pi_console(true);      // wait for ready (if console waiting is not disabled)
@@ -81,7 +81,7 @@ static inline void _vprint_init_(PI_txt fmt, va_list ap)
 // - to disable waiting for console call pi_console(false) before
 //==============================================================================
 
-static inline void pi_vprint(PI_txt fmt,va_list ap)
+static inline void pi_vprint(pi_txt fmt,va_list ap)
 {
   (*_vprint_())(fmt, ap);
 }
@@ -92,7 +92,7 @@ static inline void pi_vprint(PI_txt fmt,va_list ap)
 // - to disable waiting for console call pi_console(false) before
 //==============================================================================
 
-static inline void pi_print(PI_txt fmt,...)
+static inline void pi_print(pi_txt fmt,...)
 {
   va_list ap;
 	va_start(ap,fmt); pi_vprint(fmt, ap);	va_end(ap);

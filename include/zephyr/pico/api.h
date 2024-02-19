@@ -12,26 +12,26 @@ extern "C" {
   #include "pico/log.h"
 
   typedef struct PI_api {
-    void (*print)(PI_txt fmt,...);
-    void (*sleep)(PI_ms ms);
-    PI_us (*us)(void);
-    int (*log)(int lvl,PI_txt fmt,...);
-    int (*hello)(int lvl,PI_txt txt);
+    void (*print)(pi_txt fmt,...);
+    void (*sleep)(pi_us ms);
+    pi_us (*us)(void);
+    int (*log)(int lvl,pi_txt fmt,...);
+    int (*hello)(int lvl,pi_txt txt);
     int (*led)(int i,int val);
     int (*button)(void(*cb)(int i,int on));
     int (*poll)(int i);
 
-    PI_us (*clock)(PI_us us);
+    pi_us (*clock)(pi_us us);
     void (*now)(int *ph, int *pmin, int *psec, int *pms, int *pus);
     int (*console)(bool wait);
-    void (*vprint)(PI_txt fmt, va_list ap);
-    int (*vlog)(char tag,int lvl,PI_txt fmt, va_list ap);
+    void (*vprint)(pi_txt fmt, va_list ap);
+    int (*vlog)(char tag,int lvl,pi_txt fmt, va_list ap);
   } PI_api;  // pico API
 
   #define PI_API() {             \
             .print=pi_print,     \
             .sleep=pi_sleep,     \
-            .us=pi_us,           \
+            .us=pi_usclock,      \
             .log=pi_log,         \
             .hello=pi_hello,     \
             .led=pi_led,         \

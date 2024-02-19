@@ -51,10 +51,10 @@ static void show(void)
 
 static void blink(void)
 {
-  static PI_txt txt[] = {"red","green","blue"};
-  static PI_txt col[] = {_R_, _G_, _B_};
+  static pi_txt txt[] = {"red","green","blue"};
+  static pi_txt col[] = {_R_, _G_, _B_};
 
-  PI_us time = 0;
+  pi_us time = 0;
 	for (int i=0;; i++, time += 500*1000) {
     pico.sleep(time-pico.us());
     int k = i % 3;

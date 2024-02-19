@@ -1,8 +1,8 @@
 // main.c - 05-pico
 #include "pico/api.h"
 
-static PI_txt txt[] = {"red","green","blue"};
-static PI_txt col[] = {_R_, _G_, _B_};
+static pi_txt txt[] = {"red","green","blue"};
+static pi_txt col[] = {_R_, _G_, _B_};
 static int index[]  = {0,1, 1,2, 2,0, 0,1,2};
 static int mode = 3;
 
@@ -28,7 +28,7 @@ int main(void)
   pico.hello(4,""); // verbose level, hello msg
   pico.button(pressed); // init/setup button cb
 
-  PI_us time = 0;
+  pi_us time = 0;
 	for (int i=0;; i++, time += 500*1000) {
     pico.sleep(time-pico.us());
     int k = index[2*mode + i % (mode==3?3:2)];
