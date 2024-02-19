@@ -5,7 +5,7 @@
 #include "pico/rtos.h"
 #include "pico/type.h"
 
-typedef void (*_PI_vprint_)(pi_txt fmt, va_list ap);
+typedef void (*_pi_vprint_)(pi_txt fmt, va_list ap);
 static inline void _vprint_init_(pi_txt fmt, va_list ap);
 
 //==============================================================================
@@ -52,13 +52,13 @@ static inline void _vprint_init_(pi_txt fmt, va_list ap);
 //          *_vprint_() = vprintk;  // redirect vprint() to Zephyr vprintk()
 //==============================================================================
 
-//typedef void (*_PI_vprint_)(pi_txt fmt, va_list ap);
+//typedef void (*_pi_vprint_)(pi_txt fmt, va_list ap);
 //static inline void pi_print(pi_txt fmt,...);
 //static inline void _vprint_init_(pi_txt fmt, va_list ap);
 
-static inline _PI_vprint_* _vprint_(void)
+static inline _pi_vprint_* _vprint_(void)
 {
-  static _PI_vprint_ vprint = _vprint_init_;
+  static _pi_vprint_ vprint = _vprint_init_;
   return &vprint;
 }
 
