@@ -5,23 +5,23 @@
 #include "pico/rtos.h"
 #include "pico/type.h"
 
-typedef void (*_pi_vprint_)(pi_txt fmt, va_list ap);
-static inline void _vprint_init_(pi_txt fmt, va_list ap);
+typedef void (*_pico_vprint_)(pico_txt fmt, va_list ap);
+static inline void _vprint_init_(pico_txt fmt, va_list ap);
 
 //==============================================================================
 // PICO console function
-// - usage: err = pi_console(true)  // wait for console ready, then return 0
-//          err = pi_console(false) // check console status, ready if err=0
-// - if CONFIG_USB_DEVICE_PRODUCT is undefined then pi_console() runs as dummy
+// - usage: err = pico_console(true)  // wait for console ready, then return 0
+//          err = pico_console(false) // check console status, ready if err=0
+// - if CONFIG_USB_DEVICE_PRODUCT is undefined then pico_console() runs as dummy
 //   function that never waits for readiness and always returns err=0 (ready)
-// - once the second form (pi_console(false)) has been called, any further
-//   pi_console() call will never again wait, just return console status.
-// - in this sense call pi_console(false) before any call to pi_print() or
-//   pi_vprint() to deactivate the implicit console waiting mechanism.
+// - once the second form (pico_console(false)) has been called, any further
+//   pico_console() call will never again wait, just return console status.
+// - in this sense call pico_console(false) before any call to pico_print() or
+//   pico_vprint() to deactivate the implicit console waiting mechanism.
 //==============================================================================
 #ifdef CONFIG_USB_DEVICE_PRODUCT  // USB/COM
 
-  static inline int pi_console(bool wait)
+  static inline int pico_console(bool wait)
   {
     static bool nowait = false; // toggle if !wait
     static uint32_t dtr = 0xff; // UART line ctrl DTR
@@ -44,7 +44,7 @@ static inline void _vprint_init_(pi_txt fmt, va_list ap);
   }
 
 #else                             // DKs, using Segger RTT
-  static inline int pi_console(bool wait) { return 0; }
+  static inline int pico_console(bool wait) { return 0; }
 #endif
 //==============================================================================
 // static sorage of PICO vprint vector
@@ -52,50 +52,50 @@ static inline void _vprint_init_(pi_txt fmt, va_list ap);
 //          *_vprint_() = vprintk;  // redirect vprint() to Zephyr vprintk()
 //==============================================================================
 
-//typedef void (*_pi_vprint_)(pi_txt fmt, va_list ap);
-//static inline void pi_print(pi_txt fmt,...);
-//static inline void _vprint_init_(pi_txt fmt, va_list ap);
+//typedef void (*_pico_vprint_)(pico_txt fmt, va_list ap);
+//static inline void pico_print(pico_txt fmt,...);
+//static inline void _vprint_init_(pico_txt fmt, va_list ap);
 
-static inline _pi_vprint_* _vprint_(void)
+static inline _pico_vprint_* _vprint_(void)
 {
-  static _pi_vprint_ vprint = _vprint_init_;
+  static _pico_vprint_ vprint = _vprint_init_;
   return &vprint;
 }
 
 //==============================================================================
 // initial vprint() function, redirecting further calls to Zephyr vprintk()
 // - usage: _vprint_init_(fmt,fa);  // wait for console, redirect & vprintk()
-// - to disable waiting for console call pi_console(false) before
+// - to disable waiting for console call pico_console(false) before
 //==============================================================================
 
-static inline void _vprint_init_(pi_txt fmt, va_list ap)
+static inline void _vprint_init_(pico_txt fmt, va_list ap)
 {
   *_vprint_() = vprintk; // use vprintk from now
-  pi_console(true);      // wait for ready (if console waiting is not disabled)
+  pico_console(true);      // wait for ready (if console waiting is not disabled)
   vprintk(fmt,ap);       // our original task
 }
 
 //==============================================================================
 // PICO vprint() function, 1x forward to _vprint_init_(), then fwd. to vprintk()
-// - usage: pi_vprint(fmt,fa);  // wait for console, redirect & vprintk()
-// - to disable waiting for console call pi_console(false) before
+// - usage: pico_vprint(fmt,fa);  // wait for console, redirect & vprintk()
+// - to disable waiting for console call pico_console(false) before
 //==============================================================================
 
-static inline void pi_vprint(pi_txt fmt,va_list ap)
+static inline void pico_vprint(pico_txt fmt,va_list ap)
 {
   (*_vprint_())(fmt, ap);
 }
 
 //==============================================================================
 // PICO print() function, convert variable arg list into vprint() compatible
-// - usage: pi_print(fmt,...);  // wait for console, redirect & vprintk()
-// - to disable waiting for console call pi_console(false) before
+// - usage: pico_print(fmt,...);  // wait for console, redirect & vprintk()
+// - to disable waiting for console call pico_console(false) before
 //==============================================================================
 
-static inline void pi_print(pi_txt fmt,...)
+static inline void pico_print(pico_txt fmt,...)
 {
   va_list ap;
-	va_start(ap,fmt); pi_vprint(fmt, ap);	va_end(ap);
+	va_start(ap,fmt); pico_vprint(fmt, ap);	va_end(ap);
 }
 
 #endif // __PICO_CONSOLE__

@@ -3,8 +3,8 @@
 
 int main(void)
 {
-  pi_us time = 0;
-  pi_txt color[] = {_G_,_M_,_Y_,_C_,""};
+  pico_us time = 0;
+  pico_txt color[] = {_G_,_M_,_Y_,_C_,""};
 
   pico.hello(2,"let's go");  // log level 2 max
 
