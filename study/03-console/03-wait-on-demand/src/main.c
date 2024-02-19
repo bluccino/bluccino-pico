@@ -22,7 +22,7 @@ static void wait_on_demand(void)
    pico.log(0,NULL);  // init console as non-blocking
    if (pico.poll(-1)) {
      while (pico.poll(-1)) pico.led(1,1);
-     for (;pico.log(0,NULL) && !pico.poll(-1); pico.sleep(250*1000))
+     for (;pico.log(0,NULL) && !pico.poll(-1); pico.delay(250*1000))
        pico.led(1,-1);                    // blink until console ready
    }
 }
@@ -51,7 +51,7 @@ static void blink(void)
 
   pico_us time = 0;
 	for (int i=0;; i++, time += 500*1000) {
-    pico.sleep(time-pico.usec());
+    pico.delay(time-pico.usec());
     int k = i % 3;
     pico.log(1,"%s%s",col[k],txt[k]);
     pico.led(-1,0);                    // all LEDs off

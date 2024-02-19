@@ -13,7 +13,7 @@ extern "C" {
 
   typedef struct pico_api {
     void (*print)(pico_txt fmt,...);
-    void (*sleep)(pico_us ms);
+    void (*delay)(pico_us ms);
     pico_us (*usec)(void);
     int (*log)(int lvl,pico_txt fmt,...);
     int (*hello)(int lvl,pico_txt txt);
@@ -30,7 +30,7 @@ extern "C" {
 
   #define PICO_API() {             \
             .print=pico_print,     \
-            .sleep=pico_sleep,     \
+            .delay=pico_delay,     \
             .usec=pico_usec,       \
             .log=pico_log,         \
             .hello=pico_hello,     \

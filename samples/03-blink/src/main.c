@@ -8,7 +8,7 @@ int main(void)
   pico.log(1,"supported LEDs: %d",n);
 
   pico.led(2,1); pico.led(3,-1); pico.led(4,0);
-	for (bool on=1; ; on=!on, pico.sleep(500*1000)) {
+	for (bool on=1; ; on=!on, pico.delay(500*1000)) {
     pico.log(1,"%sLED flip",on?_G_:_M_);
     pico.led(-1,-1);
   }
