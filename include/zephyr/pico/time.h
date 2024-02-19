@@ -39,7 +39,7 @@ static inline void pico_now
   *ph = min/60;  *pmin = min%60;  *psec = sec;
 }
 
-static inline void pico_sleep(pico_us us)  // deep sleep for given microseconds
+static inline void pico_delay(pico_us us)  // deep sleep for given microseconds
 {
   if (us > 0)
     _rtos_sleep_us_((int)us);
