@@ -26,22 +26,24 @@ extern "C" {
     int (*_console)(bool wait);
     void (*_vprint)(pico_txt fmt, va_list ap);
     int (*_vlog)(char tag,int lvl,pico_txt fmt, va_list ap);
+    int (*_verbose)(void);
   } pico_api;  // pico API
 
-  #define PICO_API() {             \
-            .print=pico_print,     \
-            .delay=pico_delay,     \
-            .usec=pico_usec,       \
-            .log=pico_log,         \
-            .hello=pico_hello,     \
-            .led=pico_led,         \
-            .button=pico_button,   \
-            .poll=pico_poll,       \
+  #define PICO_API() {              \
+            .print=pico_print,      \
+            .delay=pico_delay,      \
+            .usec=pico_usec,        \
+            .log=pico_log,          \
+            .hello=pico_hello,      \
+            .led=pico_led,          \
+            .button=pico_button,    \
+            .poll=pico_poll,        \
             ._preset=pico_preset,   \
             ._now=pico_now,         \
             ._console=pico_console, \
             ._vprint=pico_vprint,   \
             ._vlog=pico_vlog,       \
+            ._verbose=pico_verbose, \
           }
 
   static inline pico_api* _pico_apico_(void)
