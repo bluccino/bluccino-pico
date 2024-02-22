@@ -11,6 +11,18 @@ extern "C" {
   #include "pico/led.h"
   #include "pico/log.h"
 
+// public pico functions not included in pico API
+
+
+  pico_us pico_preset(pico_us us);
+  void pico_now(int *ph, int *pmin, int *psec, int *pms, int *pus);
+  int pico_console(bool wait);
+  void pico_vprint(pico_txt fmt, va_list ap);
+  int pico_vlog(char tag,int lvl,pico_txt fmt, va_list ap);
+  int pico_verbose(void);
+
+// pico API
+
   typedef struct pico_api {
     void (*print)(pico_txt fmt,...);
     void (*delay)(pico_us ms);
@@ -20,13 +32,6 @@ extern "C" {
     int (*led)(int i,int val);
     int (*button)(void(*cb)(int i,int on));
     int (*poll)(int i);
-
-    pico_us (*_preset)(pico_us us);
-    void (*_now)(int *ph, int *pmin, int *psec, int *pms, int *pus);
-    int (*_console)(bool wait);
-    void (*_vprint)(pico_txt fmt, va_list ap);
-    int (*_vlog)(char tag,int lvl,pico_txt fmt, va_list ap);
-    int (*_verbose)(void);
   } pico_api;  // pico API
 
   #define PICO_API() {              \
@@ -38,12 +43,6 @@ extern "C" {
             .led=pico_led,          \
             .button=pico_button,    \
             .poll=pico_poll,        \
-            ._preset=pico_preset,   \
-            ._now=pico_now,         \
-            ._console=pico_console, \
-            ._vprint=pico_vprint,   \
-            ._vlog=pico_vlog,       \
-            ._verbose=pico_verbose, \
           }
 
   static inline pico_api* _pico_apico_(void)
