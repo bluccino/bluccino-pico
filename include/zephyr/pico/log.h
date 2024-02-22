@@ -18,6 +18,11 @@ static inline int *_pico_verbose_(void)
   return &verbose;
 }
 
+static inline int pico_verbose(void)
+{
+  return *_pico_verbose_();
+}
+
 //==============================================================================
 // variable arg list based formatted logging with log level
 // - usage: pico_vlog('#',lvl,"here we go",ap); // log text if lvl<=verbose lvl.
@@ -32,7 +37,7 @@ static inline int pico_vlog(char tag,int lvl,pico_txt fmt,va_list ap)
 {
   if (!fmt)
     return pico_console(false); // set non-block-console, return err ifn't ready
-  else if (lvl <= *_pico_verbose_()) {
+  else if (lvl <= pico_verbose()) {
     int h,min,s,ms,us;
     pico_now(&h,&min,&s,&ms,&us);
     pico_print("%c%d[%d:%02d:%02d:%03d.%03d] ",tag,lvl,h,min,s,ms,us);
@@ -71,7 +76,7 @@ static inline int pico_log(int lvl,pico_txt fmt,...)
 
 static inline int pico_hello(int lvl,pico_txt txt)
 {
-  int old = *_pico_verbose_();
+  int old = pico_verbose();
   if (lvl >= 0) *_pico_verbose_() = lvl;  // set verbose level
   if (txt) {
   	#if defined(PROJECT) && defined(CONFIG_BOARD)
