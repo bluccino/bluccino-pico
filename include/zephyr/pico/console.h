@@ -92,10 +92,11 @@ static inline void pico_vprint(pico_txt fmt,va_list ap)
 // - to disable waiting for console call pico_console(false) before
 //==============================================================================
 
-static inline void pico_print(pico_txt fmt,...)
+static inline int pico_print(pico_txt fmt,...)
 {
   va_list ap;
 	va_start(ap,fmt); pico_vprint(fmt, ap);	va_end(ap);
+  return 0;
 }
 
 #endif // __PICO_CONSOLE__

@@ -24,7 +24,7 @@ extern "C" {
 // pico API
 
   typedef struct pico_api {
-    void (*print)(pico_txt fmt,...);
+    int (*print)(pico_txt fmt,...);
     void (*delay)(pico_us ms);
     pico_us (*usec)(void);
     int (*log)(int lvl,pico_txt fmt,...);
