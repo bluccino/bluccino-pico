@@ -5,7 +5,7 @@
 #include "pico/rtos.h"
 #include "pico/type.h"
 
-static inline pico_us pico_preset(pico_us us)  // preset us clock time
+static inline pico_us pico_clock(pico_us us)  // preset us clock time
 {
   return *_rtos_us_offset_() = _rtos_us_clock_() - us;
 }
@@ -14,7 +14,7 @@ static inline pico_us pico_usec(void) // get current us-clock time
 {
   pico_us us = _rtos_us_clock_();
   pico_us offset = *_rtos_us_offset_();
-  if (!offset) offset = pico_preset((pico_us)0);
+  if (!offset) offset = pico_clock((pico_us)0);
   return us - offset;  // return us clock time
 }
 

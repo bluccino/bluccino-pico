@@ -1,5 +1,5 @@
 //==============================================================================
-// main.c - 03-wait-on-demand
+// main.c - 03-wait-if-button
 //==============================================================================
 
 #include "pico/pico.h"
@@ -8,23 +8,29 @@ int tab[20];                           // table to store return codes
 int cnt = 0;
 
 //==============================================================================
-// wait for ready console with option to break with button press
-// - pico.console() is repeatedly called until no error code returned
-// - error code is recorded for max 20 iterations
-// - status LED toggles with 250ms period during this loop
-// - any button press terminates initial waiting loop
-// - note: pico.console() and subsequent pico.print/pico.log() statements
-//   will never block
+// - usage: wait_if_button(ms) // ms > 0
+// - waits given ms-delay with blinking status LED, if no button is pressed
+//   and contuous processing
+// - if button is pressed and hold while dongle is pressed, execution enters
+//   a permanent waiting mode with status blinking, which can be terminated
+//   with any button press
 //==============================================================================
 
-static void wait_on_demand(void)
+static void wait_if_button(pico_ms ms)
 {
-   pico.log(0,NULL);  // init console as non-blocking
-   if (pico.poll(-1)) {
-     while (pico.poll(-1)) pico.led(1,1);
-     for (;pico.log(0,NULL) && !pico.poll(-1); pico.delay(250*1000))
-       pico.led(1,-1);                    // blink until console ready
-   }
+  pico.log(0,NULL);                    // init console as non-blocking
+  if (pico.poll(-1)) {                 // if initial button pressed
+    while (pico.poll(-1)) pico.led(1,1);
+    for (;pico.log(0,NULL) && !pico.poll(-1); pico.delay(250*1000))
+      pico.led(1,-1);                  // blink until console ready
+  }
+  else  // if no button is initially pressed then wait for due initial delay
+  {
+    for (;pico.log(0,NULL) && !pico.poll(-1) && pico.usec() < 1000*ms;) {
+      pico.led(1,-1);                   // blink until console ready
+      pico.delay(250*1000);
+    }
+  }
 }
 
 //==============================================================================
@@ -69,7 +75,7 @@ static void blink(void)
 
 int main(void)
 {
-  wait_on_demand();         // wait for console ready or any button press
+  wait_if_button(2000);      // wait for console ready or any button press
   pico.hello(4,"");          // verbose level, hello msg
   show();                    // show
   blink();                   // RGB flashing

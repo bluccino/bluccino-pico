@@ -14,12 +14,13 @@ extern "C" {
 // public pico functions not included in pico API
 
 
-  pico_us pico_preset(pico_us us);
+  pico_us pico_clock(pico_us us);
   void pico_now(int *ph, int *pmin, int *psec, int *pms, int *pus);
   int pico_console(bool wait);
   void pico_vprint(pico_txt fmt, va_list ap);
   int pico_vlog(char tag,int lvl,pico_txt fmt, va_list ap);
-  int pico_verbose(void);
+  int pico_vsnprint(char *buf,int size,pico_txt fmt,va_list ap);
+  int pico_verbose(int lvl);
 
 // pico API
 

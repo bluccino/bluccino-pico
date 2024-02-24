@@ -99,4 +99,15 @@ static inline int pico_print(pico_txt fmt,...)
   return 0;
 }
 
+//==============================================================================
+// PICO vsnprint() function, safe formatted print into buffer
+// - usage: char buf[10]; n = pico_vsnprint(buf,10,"long text .........",ap);
+// - return number of added characters to buf (without counting null terminator)
+//==============================================================================
+
+static inline int pico_vsnprint(char *buf,int size,pico_txt fmt,va_list ap)
+{
+  return vsnprintk(buf,size,fmt,ap);  // safe formatted print into buffer
+}
+
 #endif // __PICO_CONSOLE__

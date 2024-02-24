@@ -1,21 +1,32 @@
-# Sample 03-wait-on-demand
+# Sample 03-wait-if-button
 
 ## Description
 
-* After initialitzing the console as non-blocking the app polls all button
-  states.
+* Startup behavior depends on whether button is pressed during startup.
 
 * If non (of the max 4) configured initial button is initially pressed, then
-  the app continues with logging the hello message and ending up in a RGB blink
-  sequence.
+  the app starts with an initial waiting loop of 2 seconds with flashing the
+  status LED. After this initial delay phase the program continues execution
+  with a hello message and cyclic RGB flashing.
 
 * If, however, one of the configured buttons is pressed, then the app enters
-  a waiting loop for console readiness with flashing of the status LED. This
-  waiting mode is termitaded by either console readiness or another button
+  a waiting loop for console readiness with status LED blinking.
+  This waiting mode is termitaded by either console readiness or another button
   press, which causes the app to proceed with hello message and RGB flashing.
 
 * note that in this startup mode none of the functions `pico.console`,
   `pico.hello`, `pico.print` or `pico.log` will block.
+
+* also note that the system time is resetted during execution of the pico.hello()
+  function
+
+* Such kind of startup scenario might be useful in test networks with many
+  dongles, where it is undesirable to connect every dongle with a terminal,
+  but in the case of specific investigation of the initializing sequence a
+  specific dongle can be brought into a initial waiting mode by button press.
+  The key functionality for such startup behavior is implemented by function
+  `wait_if_button()` and might be copied/pasted for such kind of applications.
+
 
 ## Supported Boards
 

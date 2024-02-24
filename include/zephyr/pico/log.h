@@ -18,9 +18,17 @@ static inline int *_pico_verbose_(void)
   return &verbose;
 }
 
-static inline int pico_verbose(void)
+//==============================================================================
+// set verbose level  // API function
+// - usage: pico_verbose(lvl)           // set verbose level (if lvl >= 0)
+//          verbose = pico_verbose(-1)  // get verbose level, don't change lvl
+//==============================================================================
+
+static inline int pico_verbose(int lvl)
 {
-  return *_pico_verbose_();
+  int old = *_pico_verbose_();
+  if (lvl >= 0) *_pico_verbose_() = lvl;  // change verbose lvl for lvl >= 0
+  return old;
 }
 
 //==============================================================================
@@ -37,7 +45,7 @@ static inline int pico_vlog(char tag,int lvl,pico_txt fmt,va_list ap)
 {
   if (!fmt)
     return pico_console(false); // set non-block-console, return err ifn't ready
-  else if (lvl <= pico_verbose()) {
+  else if (lvl <= *_pico_verbose_()) {
     int h,min,s,ms,us;
     pico_now(&h,&min,&s,&ms,&us);
     pico_print("%c%d[%d:%02d:%02d:%03d.%03d] ",tag,lvl,h,min,s,ms,us);
@@ -66,8 +74,8 @@ static inline int pico_log(int lvl,pico_txt fmt,...)
 }
 
 //==============================================================================
-// set log level and print hello message
-// print project/board info and Pico version number
+// set log level and print hello message (while resetting clock)
+// - print project/board info and Pico version number
 // - usage: pico_hello(lvl,"");  // set verbose level, print project/board/version
 //          pico_hello(lvl,"let's go ...");// set verbose level, add specific msg
 //          old = pico_hello(lvl,NULL);    // get old/change verbose lvl, no print
@@ -76,8 +84,9 @@ static inline int pico_log(int lvl,pico_txt fmt,...)
 
 static inline int pico_hello(int lvl,pico_txt txt)
 {
-  int old = pico_verbose();
+  int old = *_pico_verbose_();
   if (lvl >= 0) *_pico_verbose_() = lvl;  // set verbose level
+  pico_clock(0);  // reset clock time
   if (txt) {
   	#if defined(PROJECT) && defined(CONFIG_BOARD)
     	pico_log(0,_R_ PROJECT" - %s (board %s, pico %s)" _0_,
