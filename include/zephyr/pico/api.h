@@ -31,7 +31,7 @@ extern "C" {
     int (*log)(int lvl,pico_txt fmt,...);
     int (*hello)(int lvl,pico_txt txt);
     int (*led)(int i,int val);
-    int (*button)(void(*cb)(int i,int on));
+    int (*button)(void(*isr)(int i,int on));
     int (*poll)(int i);
   } pico_api;  // pico API
 
@@ -46,13 +46,13 @@ extern "C" {
             .poll=pico_poll,        \
           }
 
-  static inline pico_api* _pico_apico_(void)
+  static inline pico_api* _pico_api_(void)
   {
     static pico_api pico = PICO_API();
     return &pico;
   }
 
-  #define pico (*_pico_apico_())
+  #define pico (*_pico_api_())
 #ifdef __cplusplus
 }
 #endif

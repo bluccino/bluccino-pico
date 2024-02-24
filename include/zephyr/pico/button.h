@@ -73,15 +73,15 @@ static inline struct pico_button *
 }
 
 //==============================================================================
-// init buttons and set button gpio_callback (if callback is not NULL)
-// - usage: n = pico_button(cb) // register button callback, return nmb of buttons
+// init buttons and set button gpio_callback (if ISR callback is not NULL)
+// - usage: n = pico_button(iar) // register button ISR, return nmb of buttons
 //==============================================================================
 
-static inline int pico_button(void (*cb)(int i,int on))
+static inline int pico_button(void (*isr)(int i,int on))
 {
   int n = 0;
   for (int err=0; !err;)
-     err = _pico_button_ptr_(++n,cb) == 0;
+     err = _pico_button_ptr_(++n,isr) == 0;
   return n-1;
 }
 
