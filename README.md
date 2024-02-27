@@ -116,6 +116,26 @@ which are for internal use and of of minor importance at the application level.
   } PI_api;  // pico API
 ```
 
+# Memory Usage
+
+* built on qemu_cortex_m3 platform, using Zephyr 3.6.0 SDK.
+
+```
+    Memory region     Used Size  Region Size  %age Used
+           FLASH:        9936 B       256 KB      3.79%
+             RAM:        4056 B        64 KB      6.19%
+        IDT_LIST:          0 GB        32 KB      0.00%
+```
+
+Compare to standatd Zephyr hello_world sample:
+
+```
+    Memory region     Used Size  Region Size  %age Used
+           FLASH:        8846 B       256 KB      3.37%
+             RAM:        3960 B        64 KB      6.04%
+        IDT_LIST:          0 GB        32 KB      0.00%
+```
+
 # Releases
 
 ```

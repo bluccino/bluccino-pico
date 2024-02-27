@@ -10,8 +10,8 @@ static void pressed(int i, int on)
 {
   if (!pico.log(2,"")) {
     pico.print("button states:");
-    for (int i=1; i <= 4; i++) {
-      int state = pico.poll(i);
+    for (int k=1; k <= 4; k++) {
+      int state = pico.poll(k);
       pico.print(" %0d",state);
     }
     pico.print("\n");
