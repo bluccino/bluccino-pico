@@ -1,14 +1,9 @@
 // pico/console.h - pico CONSOLE API
 
-#ifndef __PICO_CONSOLE_H__
-#define __PICO_CONSOLE_H__
-
-#if !defined(__PICO_RTOS_H__)
-  #include "pico/rtos.h"
-#endif
-#if !defined(__PICO_TYPE_H__)
-  #include "pico/type.h"
-#endif
+#ifndef __PICO_CONSOLE__
+#define __PICO_CONSOLE__
+#include "pico/rtos.h"
+#include "pico/type.h"
 
 typedef void (*_pico_vprint_)(pico_txt fmt, va_list ap);
 static inline void _vprint_init_(pico_txt fmt, va_list ap);
@@ -115,4 +110,4 @@ static inline int pico_vsnprint(char *buf,int size,pico_txt fmt,va_list ap)
   return vsnprintk(buf,size,fmt,ap);  // safe formatted print into buffer
 }
 
-#endif // __PICO_CONSOLE_H__
+#endif // __PICO_CONSOLE__

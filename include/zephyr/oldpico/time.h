@@ -2,12 +2,8 @@
 #ifndef __PICO_TIME_H__
 #define __PICO_TIME_H__
 
-#if !defined(__PICO_RTOS_H__)
-  #include "pico/rtos.h"
-#endif
-#if !defined(__PICO_TYPE_H__)
-  #include "pico/type.h"
-#endif
+#include "pico/rtos.h"
+#include "pico/type.h"
 
 static inline pico_us pico_clock(pico_us us)  // preset us clock time
 {
