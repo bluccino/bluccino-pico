@@ -2,14 +2,23 @@
 #ifndef __PICO_API_H__
 #define __PICO_API_H__
 
-#include "pico/rtos.h"  // iclude first!
+#if !defined(__PICO_RTOS_H__)
+  #include "pico/rtos.h"  // iclude first!
+#endif
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#if !defined(__PICO_BUTTON_H__)
   #include "pico/button.h"
+#endif
+#if !defined(__PICO_LED_H__)
   #include "pico/led.h"
+#endif
+#if !defined(__PICO_LOG_H__)
   #include "pico/log.h"
+#endif
 
 // public pico functions not included in pico API
 

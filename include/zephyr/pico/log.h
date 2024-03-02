@@ -1,10 +1,16 @@
 // pico/log.h - pico log API
-#ifndef __PICO_LOG__
-#define __PICO_LOG__
+#ifndef __PICO_LOG_H__
+#define __PICO_LOG_H__
 
-#include "pico/console.h"
-#include "pico/time.h"
-#include "pico/version.h"
+#if !defined(__PICO_CONSOLE_H__)
+  #include "pico/console.h"
+#endif
+#if !defined(__PICO_TIME_H__)
+  #include "pico/time.h"
+#endif
+#if !defined(__PICO_VERSION_H__)
+  #include "pico/version.h"
+#endif
 
 //==============================================================================
 // helper: set verbose level
@@ -97,4 +103,4 @@ static inline int pico_hello(int lvl,pico_txt txt)
   }
   return old;
 }
-#endif // __PICO_LOG__
+#endif // __PICO_LOG_H__

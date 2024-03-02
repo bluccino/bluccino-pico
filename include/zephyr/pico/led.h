@@ -2,7 +2,10 @@
 #ifndef __PICO_LED_H__
 #define __PICO_LED_H__
 
-#include "pico/rtos.h"
+#if !defined(__PICO_RTOS_H__)
+  #include "pico/rtos.h"
+#endif
+
 #define PICO_LED0  DT_ALIAS(led0)
 #define PICO_LED1  DT_ALIAS(led1)
 #define PICO_LED2  DT_ALIAS(led2)
@@ -26,7 +29,7 @@ static inline struct gpio_dt_spec *_pico_led_ptr_(int i) // helper
   };
 
   static int n = 0; // number of initialized LEDs
-	for (; n < sizeof(ds)/sizeof(ds[0]); n++) {
+	for (; n < (int)(sizeof(ds)/sizeof(ds[0])); n++) {
 	  if (!device_is_ready(ds[n].port)) {
 	    printk("error %d: LED device not ready\n",ENODEV);
             continue;

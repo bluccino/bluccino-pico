@@ -6,6 +6,9 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+#include <stdbool.h>
+
 typedef int64_t pico_us;          // micro seconds
 typedef int64_t pico_ms;          // mili seconds
 typedef const char *pico_txt;     // pointer to text
